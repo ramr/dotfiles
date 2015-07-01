@@ -1,0 +1,60 @@
+"  ~/.vimrc settings
+
+" ---------------------------------------------------------------------
+"    Secure + no jarring colors!!
+" ---------------------------------------------------------------------
+set modelines=0                 " No!! The first *nix virus
+syntax off                      " syntax off. turn on as needed
+
+
+" ---------------------------------------------------------------------
+"    General tabs etc
+" ---------------------------------------------------------------------
+filetype on                     " detect file type automatically
+set textwidth=80                " tw/text width
+set autoindent smartindent      " smart ident
+" set tabstop=4                   " ts/tab stop
+" set shiftwidth=2                " sw/shiftwidth idents 2
+" set softtabstop=2               " tab as indent
+" set expandtab                   " don't save 'em tabs -- Makefiles caution!!
+set tabstop=8                   " ts/tab stop
+set shiftwidth=8                " sw/shiftwidth idents 2
+set softtabstop=8               " tab as indent
+set noexpandtab                   " don't save 'em tabs -- Makefiles caution!!
+set backspace=eol,start,indent  " allow backspacing on ...
+set ruler                       " show ruler on status bar
+set number                      " show line numbers
+
+set more                        " moreing on
+set visualbell                  " roadrunner beep beep
+
+
+" ---------------------------------------------------------------------
+"    Save levels, rollbacks and backups
+" ---------------------------------------------------------------------
+set updatecount=500             " write swap file every 'n' chars
+set undolevels=999              " backout/rollback levels
+set autoread                    " watch for file changes
+
+" set backup                      " backup files on
+set backupext=~                 " backup files ends w/ ~
+
+
+" ---------------------------------------------------------------------
+"    : menu
+" ---------------------------------------------------------------------
+set wildmenu                    " : supports tabs
+set history=100                 " keep track of the last 'n' commands
+
+
+" ---------------------------------------------------------------------
+"    Searching
+" ---------------------------------------------------------------------
+set showmatch                   " show matching braces
+set hlsearch                    " search highlighting
+set incsearch                   " show matches asap
+
+set diffopt=filler,iwhite      " diff opts
+
+" -- execute pathogen#infect()
+" -- filetype plugin indent on

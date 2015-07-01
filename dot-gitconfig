@@ -1,0 +1,61 @@
+[user]
+	name = ramr
+	email = smitram@gmail.com
+[color]
+	ui = auto
+	interactive = auto
+[pack]
+	threads = 2
+
+[branch]
+    # autosetuprebase = always
+
+[alias]
+	st = status
+	cp = cherry-pick
+	ci = commit
+	co = checkout
+	up = pull --rebase
+	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	lsuntracked = ls-files . --ignored --exclude-standard --others
+	lcrev = log --reverse --no-merges --stat @{1}..
+	changes = diff --name-status -r
+	diffstat = diff --stat -r
+	mchanges = diff @{u}.. --name-status -r
+	mdiff = diff @{u}..
+	mdiffstat = diff @{u}.. --stat -r
+	mlist = diff @{u}.. --name-status
+	mlog = log @{u}..
+	branch-name = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
+	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+
+[core]
+	excludesfile = /Users/ramr/.gitignore
+
+[github]
+	user = ramr
+
+[rerere]
+	enabled = 1
+
+[merge]
+	keepBackup = false;
+	# tool = p4merge
+
+[mergetool "p4merge"]
+	cmd = p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	keepTemporaries = false
+	trustExitCode = false
+	keepBackup = false
+
+[diff]
+	# external = p4diff
+
+[push]
+	default = simple
+
+[pager]
+	diff = diff-highlight | less
+	log = diff-highlight | less
+	show = diff-highlight | less

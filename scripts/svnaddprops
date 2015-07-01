@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#
+#  main():
+#
+svn propset svn:keywords "Date URL Revision" $*

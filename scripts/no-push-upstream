@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "  - Setting upstream no_push ..."
+git remote set-url --push upstream no_push
+
+echo ""
+echo "  - git repo remotes"
+git remote -v

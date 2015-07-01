@@ -1,0 +1,29 @@
+#!/bin/sh
+
+SCRIPT_NAME=$0
+
+
+function _search() {
+  if (test $# -lt 1); then
+     echo "Usage: $SCRIPT_NAME <search-string-or-pattern> [<dirs-or-files>]"
+     exit 0
+  fi
+
+  SEARCH_PATTERN=$1
+  shift
+
+  SEARCH_IN=$*
+  if (test -z "$SEARCH_IN"); then
+     SEARCH_IN="."
+  fi
+
+  grep -r "$SEARCH_PATTERN" ${SEARCH_IN} 2>&1 |   \
+    grep -v "^grep:" | grep -v ".svn/"
+
+}  #  End of function  _search.
+
+
+#
+#  main():
+#
+_search "$@"

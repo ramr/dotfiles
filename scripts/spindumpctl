@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SPINDUMP_PLIST="/System/Library/LaunchDaemons/com.apple.spindump.plist"
+SERVICE="com.apple.spindump"
+
+
+function _spindump_launchctl() {
+  case "$1" in
+    on)  echo "spindump launchctl - $1"
+         sudo launchctl load -w $SPINDUMP_PLIST
+	 return ;;
+    off)  echo "spindump launchctl - $1"
+         sudo launchctl unload -w $SPINDUMP_PLIST
+	 return ;;
+  esac
+
+  sudo launchctl list $SERVICE
+}
+
+
+#
+#  main():
+#
+_spindump_launchctl "$(echo $1 | tr '[A-Z]' '[a-z]')"

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+
+#
+#  main():
+#
+racoon="com.apple.racoon"
+
+sudo launchctl stop  $racoon
+
+sudo launchctl start $racoon

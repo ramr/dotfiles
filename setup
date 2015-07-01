@@ -1,0 +1,55 @@
+#!/bin/bash
+
+BASHRC_FILE=~/.bashrc
+DOTFILES_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+
+function _generate_bashrc_dotfiles_hook_in() {
+
+  echo "
+
+
+# User specific aliases and functions
+function _load_dotfiles() {
+  local dotfiles_setup=${DOTFILES_DIR}/setup
+  [ -f "\$dotfiles_setup" ]  &&  source "\$dotfiles_setup"
+
+}  #  End of function  load_dotfiles.
+
+
+#
+#  main():
+#
+_load_dotfiles
+"
+
+}  #  End of function  _generate_bashrc_dotfiles_hook_in.
+
+
+function _setup_config_symlinks() {
+  for file in dot-gitconfig dot-gitignore dot-vimrc; do
+    dotconfig=$(echo $file | sed 's/dot-/\./')
+    [ -f ~/"$dotconfig" ] || ln -s $DOTFILES_DIR/$file ~/$dotconfig
+  done
+
+}  #  End of function  _setup_config_symlinks.
+
+
+function _setup() {
+  if ! grep "_load_dotfiles" "$BASHRC_FILE" > /dev/null 2>&1; then
+    _generate_bashrc_dotfiles_hook_in >> "$BASHRC_FILE"
+  fi
+
+  _setup_config_symlinks
+
+  #  And source in the "basher" setup.
+  local basher_setup=${DOTFILES_DIR}/basher/setup
+  [ -f "$basher_setup" ]  &&  source "$basher_setup"
+
+}  #  End of function  _setup.
+
+
+#
+#  main():
+#
+_setup

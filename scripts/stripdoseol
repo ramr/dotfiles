@@ -1,0 +1,12 @@
+#!/bin/bash
+
+
+#
+#  main():
+#
+if test $# -ne 1; then
+   echo "Usage: $0 <filename>"
+   exit 0
+fi
+
+perl -pi -e 's/\r\n/\n/g' "$1"

@@ -1,0 +1,13 @@
+#/bin/bash
+
+
+#
+#  main():
+#
+if (test $# -lt 1); then
+   echo "Usage: $0  <title>"
+   exit -1
+fi
+
+osascript -e "tell application \"Terminal\" to set custom title of window 1 to \"$1\""
+

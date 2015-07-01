@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+#
+#  main():
+#
+exec /System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background

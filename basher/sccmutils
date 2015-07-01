@@ -1,0 +1,94 @@
+#!/bin/bash
+
+export CACHE_TIME=3600
+
+
+#
+#  git util functions
+#
+function get_git_branch() {
+   git rev-parse --abbrev-ref HEAD 2> /dev/null
+
+}  #  End of function  get_git_branch.
+
+
+function get_git_repo() {
+   basename $(git rev-parse --show-toplevel)
+
+}  #  End of function  get_git_repo.
+
+
+function get_cached_git_status_file() {
+  local repo=$(get_git_repo)
+  local branch=$(get_git_branch)
+  branch=${branch//\//-}
+  echo "/tmp/git_status.cached.${repo// /}.${branch// /}" 
+}
+
+
+function get_git_prompt_bits() {
+   local branch=$(get_git_branch)
+   [ -z "$branch" ]   &&  return 0
+
+   local statusfile=$(get_cached_git_status_file)
+   if [ -f "$statusfile" ]; then
+     local ctime="0"
+
+     if [ "$(uname -s)" = "Darwin" ]; then
+       ctime=$(stat -f %B "$statusfile")
+     else
+       ctime=$(stat -c %Y "$statusfile")
+     fi
+
+     local expiry=$((ctime + $CACHE_TIME))
+     local now=$(date +%s)
+     [ "$now" -gt "$expiry" ] && rm -f "$statusfile"
+   fi
+
+   local cached=""
+   if [ -f "$statusfile" ]; then
+     cached="cached:"
+     source "$statusfile"
+   else
+     nmod=$(git diff --name-status | wc -l)
+     nstaged=$(git diff --staged --name-status | wc -l)
+
+     ncin=0
+     if git remote -v | grep origin > /dev/null 2>&1; then
+       ncin=$(git mdiff --name-status | wc -l)
+     fi
+
+     nothers=$(git ls-files --others --exclude-standard | wc -l)
+
+     echo "nmod=\"${nmod}\"" > "$statusfile"
+     echo "nstaged=\"${nstaged}\"" >> "$statusfile"
+     echo "ncin=\"${ncin}\"" >> "$statusfile"
+     echo "nothers=\"${nothers}\"" >> "$statusfile"
+   fi
+
+   local changes="c-${nmod}:s-${nstaged}+${ncin}:o-${nothers})"
+   echo "(${cached}${branch}:${changes}" | tr -d ' '
+
+}  #  End of function  get_git_prompt_bits.
+
+
+#
+#  subversion util functions
+#
+function get_svn_branch() {
+   get_svn_url  | sed -e 's#^'"$(get_svn_repository_root)"'##g'  |  \
+      awk '{print " (svn::"$1")" }'
+
+}  #  End of function  get_svn_branch.
+
+
+function get_svn_url() {
+   svn info 2>/dev/null  |  sed -ne 's#^URL: ##p'
+
+}  #  End of function  get_svn_url.
+
+
+function get_svn_repository_root() {
+   svn info 2>/dev/null  |  sed -ne 's#^Repository Root: ##p'
+
+}  #  End of function  get_svn_repository_root.

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+function docker() {
+   sudo docker "$@"
+}
+
+function dockerip() {
+  sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}" "$@"
+}
+
+function containerpid() {
+  sudo docker inspect --format "{{ .State.Pid }}" "$1"
+
+}  #  End of function  containerpid.
+
+
+function dockexec() {
+  docker exec -it "$1"
+
+}  #  End of function  dockexec.
+
+
+function enter() {
+  sudo nsenter -m -u -n -i -p -t $(containerpid "$1")
+
+}  #  End of function  enter.
+
+
+function dockclean() {
+  local what=${1:-"containers"}
+
+  if [ "$what" = "all" ] || [ "$what" = "containers" ]; then
+    # remove all docker containers
+    docker rm $(docker ps -a -q)
+  fi
+
+  if [ "$what" = "all" ] || [ "$what" = "images" ]; then
+    # remove all docker images
+    docker rmi $(docker images)
+  fi
+
+}  #  End of function  dockclean.

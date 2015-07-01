@@ -1,0 +1,73 @@
+### Red Hat
+
+SSH_KEY=.ssh/id_rsa_ramr
+
+
+#  Functions.
+function setupvm() {
+  local vagrant_bashrc=$(get_basher_dir)/vagrant/dot.bashrc
+  local id_rsa=~/$SSH_KEY
+  local id_rsa_pub=~/${SSH_KEY}.pub
+
+  vagrant ssh $1 -c "cat >> ~/.bashrc" < ${vagrant_bashrc}
+  vagrant ssh $1 -c "rm -f ~/.ssh/id_rsa ~/.ssh/id_rsa.pub"
+  vagrant ssh $1 -c "cat >> ~/.ssh/id_rsa" < ${id_rsa}
+  vagrant ssh $1 -c "cat >> ~/.ssh/id_rsa.pub" < ${id_rsa_pub}
+
+}  #  End of function  setupvm.
+
+
+function oscluster() {
+  export OPENSHIFT_NUM_CPUS=8
+  export OPENSHIFT_MEMORY=4096
+
+  unset OPENSHIFT_DEV_CLUSTER
+  unset OPENSHIFT_NUM_MINIONS
+  [ -n "$1" ] && return 0
+
+  unset OPENSHIFT_NUM_CPUS
+  unset OPENSHIFT_MEMORY
+
+  export OPENSHIFT_DEV_CLUSTER=1
+  export OPENSHIFT_NUM_MINIONS=1
+
+}  #  End of function  oscluster.
+
+
+function _setup_kube_aliases {
+  alias osdestroy="cdos; vagrant destroy -f minion-1 minion-2 master; rm -rf openshift.local.* .vagrant; make clean"
+  alias osdevdestroy="cdos; vagrant destroy -f openshiftdev; rm -rf openshift.local.* .vagrant; make clean"
+
+  alias master="vagrant ssh master"
+  alias minion1="vagrant ssh minion-1"
+  alias minion2="vagrant ssh minion-2"
+  alias min1="minion1"
+  alias min2="minion2"
+
+}  #  End of function  _setup_kube_aliases.
+
+
+function _setup_env() {
+  export GOPATH="${WORKAREA}/redhat"
+  export PATH=${PATH}:${GOPATH}/bin
+
+  alias cdos="cd ${WORKAREA}/redhat/src/github.com/openshift/origin"
+  alias cdoskube="cd ${WORKAREA}/redhat/src/github.com/openshift/origin/Godeps/_workspace/src/github.com/GoogleCloudPlatform/kubernetes/"
+  alias cdkube="cd ${WORKAREA}/redhat/src/github.com/ramr/kubernetes"
+  alias cdnotes="cd ${WORKAREA}/redhat/notes"
+
+}  #  End of function  _setup_env.
+
+
+function _rh_env_setup() {
+  _setup_env
+
+  _setup_kube_aliases
+
+}  #  End of function  _rh_env_setup.
+
+
+#
+#  main():
+#
+_rh_env_setup

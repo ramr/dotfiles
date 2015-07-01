@@ -1,0 +1,47 @@
+#!/bin/bash
+
+SSH_ENV="$HOME/.ssh/environment"
+SSH_KEY=~/.ssh/id_rsa_ramr
+
+
+function _add_ssh_keys_to_agent {
+  chmod 600 "${SSH_ENV}"
+
+  . "${SSH_ENV}" > /dev/null
+
+  /usr/bin/ssh-add "${SSH_KEY}"
+
+}  #  End of function  _add_ssh_keys_to_agent.
+
+
+function _start_ssh_agent {
+  echo "Initialising new SSH agent..."
+  /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+
+  echo "succeeded"
+  _add_ssh_keys_to_agent
+
+}  #  End of function  _start_ssh_agent.
+
+
+function _setup_ssh_agent() {
+  # Source SSH settings, if applicable
+  # unset SSH_ASKPASS
+  if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    #ps ${SSH_AGENT_PID} doesn't work under cywgin
+    ps -ef | grep ${SSH_AGENT_PID} | grep "ssh-agent$" > /dev/null || {
+        _start_ssh_agent;
+    }
+  else
+    _start_ssh_agent;
+  fi 
+
+}  #  End of function  _setup_ssh_agent.
+
+
+
+#
+#  main():
+#
+_setup_ssh_agent

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#  boot2docker env.
+#  Exported env vars returned by: $(boot2docker shellinit)
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/ramr/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
+
+
+#  VirtualBox manage.
+alias vmgr='VBoxManage'
+
+
+#  Load RVM into a shell session *as a function*
+[[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"
+
+PATH=${PATH}:${HOME}/.rvm/bin # Add RVM to PATH for scripting
+
+
+#  Load NVM into a shell session and use default ... 
+#  [[ -s "${HOME}/.nvm/nvm.sh" ]] && source "${HOME}/.nvm/nvm.sh"
+#  nvm use 0.12.5

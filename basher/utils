@@ -1,0 +1,20 @@
+# .bash_utils
+
+function rrhc() { 
+   `which rhc` "$@" -p "`cat ~/.openshift/.pc`";
+
+}  #  End of function  rhc.
+
+
+function setup_bash_completion() {
+  if [ -f `brew --prefix`/etc/bash_completion ]; then
+    . `brew --prefix`/etc/bash_completion
+  fi
+
+}
+
+ 
+#
+#  main():
+#
+setup_bash_completion

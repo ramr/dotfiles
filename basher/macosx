@@ -1,7 +1,15 @@
 #!/bin/bash
 
+function setup_bash_completion() {
+  if [ -f `brew --prefix`/etc/bash_completion ]; then
+    . `brew --prefix`/etc/bash_completion
+  fi
+
+}
+
 
 #
 #  main():
 #
 # spindumpctl off > /dev/null 2>&1
+setup_bash_completion

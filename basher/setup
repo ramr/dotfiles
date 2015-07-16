@@ -4,7 +4,7 @@ BASHER_SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOTFILES_DIR=$(cd "$(dirname "$BASHER_SRC_DIR")" && pwd)
 
 BASHER_SOURCES="aliases utils colors sccmutils vms"  #  ssh-agent-setup
-BASHER_CUSTOM_SOURCES="rhwork"  #  crwork rhlibra
+BASHER_CUSTOM_SOURCES="rhwork docker"  #  crwork rhlibra
 
 
 # User specific aliases and functions
@@ -31,8 +31,8 @@ function _setup_env() {
 
 
 function _load_sources() {
-  local custom=${BASHER_CUSTOM_SOURCES}
-  [ "$(uname -s)" = "Darwin" ]  &&  custom="macosx $custom"
+  local custom="${BASHER_CUSTOM_SOURCES}"
+  [ "$(uname -s)" = "Darwin" ]  &&  custom="${custom} macosx"
 
   for f in $(echo "${BASHER_SOURCES} ${custom}"); do
     local fname="$(get_basher_dir)/$f"

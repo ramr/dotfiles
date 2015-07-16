@@ -1,0 +1,51 @@
+#!/bin/bash
+
+
+SCRIPT_NAME=$(basename "$0")
+
+
+function _die() {
+  echo "$1"
+  exit 1
+
+}  #  End of function  _die.
+
+
+function _printUsageAndDie() {
+  _die "Usage: $SCRIPT_NAME <interface-name>"
+
+}  #  End of function  _printUsageAndDie.
+
+
+function _generate_config() {
+  [ -z "$1" ]  &&  _printUsageAndDie
+
+  local macaddr=$(ip a s $1 | grep 'link/ether' |  \
+                    sed "s#\s*link/ether\s\+\(.*\)\s\+brd.*#\1#")
+
+  cat <<MYEOF
+DEVICE="$1"
+IPADDR="${2:-"172.30.2.22"}
+NETMASK="255.255.255.0"
+HWADDR="$macaddr"
+ONBOOT="yes"
+NAME="Host_Only_Connection"
+BOOTPROTO="none"
+MYEOF
+
+}  #  End of function  _generate_config.
+
+
+function _configure() {
+  [ -z "$1" ]  &&  _printUsageAndDie
+
+  local fname="/etc/sysconfig/network-scripts/ifcfg-$1"
+  _generate_config "$@" > "$fname"
+
+}  #  End of function  _configure.
+
+
+#
+#  main():
+#
+_configure "$@"

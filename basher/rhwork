@@ -34,10 +34,18 @@ function oscluster() {
 }  #  End of function  oscluster.
 
 
-function _setup_kube_aliases {
-  alias osdestroy="cdos; vagrant destroy -f minion-1 minion-2 master; rm -rf openshift.local.* .vagrant; make clean"
-  alias osdevdestroy="cdos; vagrant destroy -f openshiftdev; rm -rf openshift.local.* .vagrant; make clean"
+function osdestroy() {
+  local vms="minion-1 minion-2 master"
+  [ -z "$OPENSHIFT_DEV_CLUSTER" ] && vms="openshiftdev"
+  vagrant destroy -f $vms
+  rm -rf .vagrant openshift.local.{config,etcd} openshift.local.volumes/*
+  make clean
 
+} #  End of function osdestroy.
+
+
+function _setup_kube_aliases {
+  alias osdevdestroy="osdestroy"
   alias master="vagrant ssh master"
   alias minion1="vagrant ssh minion-1"
   alias minion2="vagrant ssh minion-2"

@@ -22,6 +22,11 @@ function setup_env() {
   export CURL_CA_BUNDLE="${OS3SRCDIR}/openshift.local.config/master/ca.crt"
   [ -f "$KUBECONFIG" ] && sudo chmod +r "$KUBECONFIG"
 
+  local voldir=/var/lib/openshift/openshift.local.volumes
+  sudo mkdir -p "$voldir"
+  [ -L $OS3SRCDIR/openshift.local.volumes ] || ln -s $voldir $OS3SRCDIR
+
+
 }  #  End of function  setup_env.
 
 
@@ -70,7 +75,7 @@ function stopos3() {
 
 function startos3() {
   local os3=$(which openshift)
-  (cd $OS3SRCDIR; sudo bash -c "nohup $os3 start &> /tmp/openshift.log &")
+  (cd $OS3SRCDIR; sudo bash -c "nohup $os3 start --loglevel=4 &> /tmp/openshift.log &")
 
 }  #  End of function  startos3.
 
@@ -88,7 +93,7 @@ function create_test_env() {
   sudo chmod +r /openshift.local.config/master/openshift-client.key
 #  openshift ex registry --create --credentials="${KUBECONFIG}"
 
-#  osc describe service docker-registry
+#  oc describe service docker-registry
 
   openshift ex new-project test --display-name="OpenShift 3 Sample"  \
      --description="Example project to demonstrate OpenShift v3"     \
@@ -97,20 +102,22 @@ function create_test_env() {
 }  #  End of function  create_test_env.
 
 
+function cleanup_router() {
+  oc delete rc/router-1 dc/router se/router
+
+}  #  End of function  cleanup_router.
+
+
 function cleanup_sample_app() {
    local ns="test"
-   osc delete -n $ns rc database-1
-   osc delete -n $ns dc database
-   osc delete -n $ns dc frontend
-   osc delete -n $ns service database
-   osc delete -n $ns service frontend
+   oc delete -n $ns rc/database-1 dc/database dc/frontend se/database se/frontend
 
    echo " #### need to clean up pods ... "
-   osc get pods -n $ns
+   oc get pods -n $ns
 
    #  Example:
-   # osc delete -n test pod build-ruby-sample-build-c72d887c-c8ed-11e4-8bc5-080027c5bfa9
-   # osc delete -n test pod database-1-rxjmg
+   # oc delete -n test pod build-ruby-sample-build-c72d887c-c8ed-11e4-8bc5-080027c5bfa9
+   # oc delete -n test pod database-1-rxjmg
 
    for k in  deploymentConfigs images builds routes imageRepositories  \
 	     buildConfigs ; do

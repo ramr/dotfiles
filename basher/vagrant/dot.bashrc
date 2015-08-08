@@ -16,6 +16,8 @@ function setup_env() {
 
   alias cdos3="cd ${OS3SRCDIR}"
   alias cdos="cdos3"
+  alias cdsrc="cdos3"
+  alias cdpg="cd ${OS3SRCDIR}/../../ramr/src"
 
   export KUBECONFIG="${OS3SRCDIR}/openshift.local.config/master/admin.kubeconfig"
   export OPENSHIFTCONFIG="${KUBECONFIG}"

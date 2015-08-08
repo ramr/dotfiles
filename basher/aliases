@@ -17,11 +17,11 @@ alias undolast="echo 'Run command: git reset --soft HEAD^'"
 alias updsrc="git fetch upstream; git co master; git rebase upstream/master"
 
 #  misc.
-alias vers='sw_vers'
 alias mkvmerge='/Applications/Mkvtoolnix-7.0.0.app/Contents/MacOS/mkvmerge'
-alias hinv='system_profiler'
+alias hinv='lshw'
 alias ohfck='sudo $(history -p \!\!)' 
 alias fck='eval $(thefuck $(fc -ln -1))'
+alias extip='echo "$(curl http://ipecho.net/plain)"'
 
 #  alias dl='docker ps -l -q'
 

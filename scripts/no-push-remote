@@ -1,0 +1,14 @@
+#!/bin/bash
+
+remote=${1:-"upstream"}
+
+if git remote -v  | grep "^$remote" &> /dev/null; then
+  echo "  - Setting $remote no_push ..."
+  git remote set-url --push $remote no_push
+else
+  echo "  - Warning: No remote named $remote exists - ignoring ..."
+fi
+
+echo ""
+echo "  - git repo remotes"
+git remote -v

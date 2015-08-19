@@ -3,6 +3,16 @@
 # set -o posix
 
 
+function termrun() {
+  osascript 2>/dev/null <<EOF
+    tell application "Terminal"
+      do script with command "cd \"$PWD\; $@" in window 1
+    end tell
+EOF
+
+}  #  End of function  termrun.
+
+
 function _macosx__setup_aliases() {
   alias hinv="system_profiler"
   alias hinv-ports="networksetup -listallhardwareports"
@@ -13,6 +23,7 @@ function _macosx__setup_aliases() {
   alias wifi-info="airport -I"
   alias wifi-disconnect="airport -z"
 
+  alias trun="termrun"
   alias spindump-off="spindumpctl off > /dev/null 2>&1"
 
 }  #  End of function  _macosx__setup_aliases.

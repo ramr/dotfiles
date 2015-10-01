@@ -14,6 +14,8 @@ function setup_env() {
 
   [ -d "$OS3SRCDIR" ] || export OS3SRCDIR="/vagrant"
 
+  export PATH=$OS3SRCDIR/_output/local/bin/linux/amd64:${PATH}
+
   alias cdos3="cd ${OS3SRCDIR}"
   alias cdos="cdos3"
   alias cdsrc="cdos3"

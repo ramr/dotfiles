@@ -1,0 +1,7 @@
+#!/bin/bash
+
+sudo bash <<EOF
+  service ntp stop
+  ntpdate -s time.nist.gov
+  service ntp start
+EOF

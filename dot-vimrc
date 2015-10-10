@@ -20,11 +20,14 @@ set autoindent smartindent      " smart ident
 set tabstop=8                   " ts/tab stop
 set shiftwidth=8                " sw/shiftwidth idents 2
 set softtabstop=8               " tab as indent
-set noexpandtab                   " don't save 'em tabs -- Makefiles caution!!
+set noexpandtab                 " don't save 'em tabs -- Makefiles caution!!
 set backspace=eol,start,indent  " allow backspacing on ...
 set ruler                       " show ruler on status bar
 set number                      " show line numbers
+set lazyredraw                  " redraw only when needed
 
+set showcmd                     " show command in the bottom bar
+set cursorline                  " highlight current line
 set more                        " moreing on
 set visualbell                  " roadrunner beep beep
 

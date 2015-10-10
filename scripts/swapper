@@ -1,0 +1,48 @@
+#!/bin/bash
+
+
+function _warn_if_not_root() {
+  if [ $(id -u) -ne 0 ]; then
+    echo "Warning: You probably want to run this command as root."
+  fi
+
+}  #  End of function  _warn_if_not_root.
+
+
+function _add_swap() {
+  local now=$(date +%s)
+  local swapfile=${1:-"/swapper/swapfile-${now}"}
+  local amount=${2:-"2g"}
+
+  local sz=$(echo "$amount" | sed 's/g/ * 1024m/; s/m/ * 1/;' | bc)
+
+  _warn_if_not_root
+  dd if=/dev/zero of="$swapfile" bs=1024k count=$sz
+  mkswap "$swapfile"
+  swapon "$swapfile"
+
+}  #  End of function  _add_swap.
+
+
+function _remove_swap() {
+  local swapfile=${1:-"/swapper/swapfile"}
+
+  _warn_if_not_root
+  swapoff "$swapfile"
+
+  [ -f "$swapfile" ] && rm "$swapfile"
+
+}  #  End of function  _remove_swap.
+
+
+#
+#  main():
+#
+cmd=${1:-"list"}
+shift
+
+case "$cmd" in
+  add)    _add_swap    "$@"  ;;
+  remove) _remove_swap "$@"  ;;
+  *)      swapon -sv         ;;
+esac

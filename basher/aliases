@@ -22,6 +22,7 @@ alias hinv='lshw'
 alias ohfck='sudo $(history -p \!\!)' 
 alias fck='eval $(thefuck $(fc -ln -1))'
 alias extip='echo "$(curl http://ipecho.net/plain)"'
+alias getdl='go get -u github.com/derekparker/delve/cmd/dlv'
 
 #  alias dl='docker ps -l -q'
 

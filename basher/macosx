@@ -13,7 +13,40 @@ EOF
 }  #  End of function  termrun.
 
 
+#  From HN: https://news.ycombinator.com/item?id=10143143
+function InTheHallOfTheMountainKing() {
+  say -v cellos dum dum dum dum dum dum dum he he he ho ho ho  \
+         fa lah lah lah lah lah lah fa lah full hoo hoo hoo
+
+}  #  End of function  InTheHallOfTheMountainKing.
+
+
+#  From HN: https://news.ycombinator.com/item?id=10143143
+function ChopinFuneralMarch() {
+  say -v Bad dum dum dum dum dum dum dum dum dum dum dum dum dum dum dum  \
+         dum dum dum dum dum dum dum
+
+}  #  End of function  ChopinFuneralMarch.
+
+
+#  From HN: https://news.ycombinator.com/item?id=10143143
+function VoicesInMyHead() {
+  for voice in $(say --voice="?" | awk '{print $1}"); do
+    say -v "$voice" "Hello ${1:${USER}}";
+  done
+
+}  #  End of function  VoicesInMyHead.
+
+
+#  From HN: https://news.ycombinator.com/item?id=10143143
+function clipboard() {
+  [ -t 0 ] && pbpaste || pbcopy
+
+}  #  End of function  clipboard.
+
+
 function _macosx__setup_aliases() {
+  alias clip="clipboard"
   alias hinv="system_profiler"
   alias hinv-ports="networksetup -listallhardwareports"
 

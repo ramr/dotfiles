@@ -31,7 +31,7 @@ function ChopinFuneralMarch() {
 
 #  From HN: https://news.ycombinator.com/item?id=10143143
 function VoicesInMyHead() {
-  for voice in $(say --voice="?" | awk '{print $1}"); do
+  for voice in $(say --voice="?" | awk "{print $1}"); do
     say -v "$voice" "Hello ${1:${USER}}";
   done
 

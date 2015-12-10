@@ -60,7 +60,7 @@ function create_test_env() {
 
 
 function cleanup_router() {
-  oc delete rc/router-1 dc/router se/router
+  oc delete rc/router-1 dc/router service/router
 
 }  #  End of function  cleanup_router.
 

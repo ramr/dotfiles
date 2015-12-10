@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+function _setup_linux_aliases() {
+  :
+
+}  #  End of function  _setup_linux_aliases.
+
+
+#
+#  main():
+#
+_setup_linux_aliases

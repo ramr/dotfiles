@@ -69,8 +69,21 @@ function _macosx__setup_bash_completion() {
 }  #  End of function _macosx__setup_bash_completion
 
 
+function _macosx__setup_docker() {
+  #  boot2docker env.
+  #  Exported env vars returned by: $(boot2docker shellinit)
+  export DOCKER_HOST=tcp://192.168.59.103:2376
+  export DOCKER_CERT_PATH=/Users/ramr/.boot2docker/certs/boot2docker-vm
+  export DOCKER_TLS_VERIFY=1
+
+}  #  End of function _macosx__setup_docker.
+
+
 #
 #  main():
 #
 _macosx__setup_aliases
+
 _macosx__setup_bash_completion
+
+_macosx__setup_docker

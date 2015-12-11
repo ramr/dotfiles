@@ -2,7 +2,7 @@
 
 
 function _setup_linux_aliases() {
-  :
+  alias ntpupdate="sudo ntpdate -s time.nist.gov"
 
 }  #  End of function  _setup_linux_aliases.
 

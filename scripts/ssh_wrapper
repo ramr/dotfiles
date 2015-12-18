@@ -1,0 +1,5 @@
+#!/bin/bash
+
+keyfile="~/.ssh/custom_id_rsa"
+
+ssh -i ${keyfile} $1 $2

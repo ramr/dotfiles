@@ -3,7 +3,7 @@
 BASHER_SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOTFILES_DIR=$(cd "$(dirname "$BASHER_SRC_DIR")" && pwd)
 
-BASHER_SOURCES="aliases utils colors sccmutils vms"
+BASHER_SOURCES="aliases utils scrapper colors sccmutils vms"
 BASHER_CUSTOM_SOURCES="rhwork docker"  #  crwork rhlibra
 BASHER_LINUX_SOURCES="linux ssh-agent-setup"
 BASHER_MACOSX_SOURCES="macosx"
@@ -20,6 +20,8 @@ function _setup_env() {
   #  History setup.
   export HISTSIZE=1000
   export HISTFILESIZE=2000
+
+  shopt -s histappend
 
   #  language and workarea.
   export LANG=C

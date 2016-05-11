@@ -51,6 +51,7 @@
 
 [diff]
 	# external = p4diff
+	algorithm = patience
 
 [push]
 	default = simple

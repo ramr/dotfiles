@@ -58,6 +58,8 @@ function _macosx__setup_aliases() {
 
   alias trun="termrun"
   alias spindump-off="spindumpctl off > /dev/null 2>&1"
+  alias cupswebon="cupsctl WebInterface=yes"
+  alias cupsweboff="cupsctl WebInterface=no"
 
 }  #  End of function  _macosx__setup_aliases.
 

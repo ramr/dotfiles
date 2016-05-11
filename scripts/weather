@@ -1,0 +1,4 @@
+#!/bin/bash
+
+zip=${1:-94303}
+exec curl http://wttr.in/${zip}

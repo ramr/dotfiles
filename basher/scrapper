@@ -1,0 +1,101 @@
+#!/bin/bash
+
+SCRAPBOOK_DIR=~/.scraps
+
+
+function _check_scrap() {
+  local name="${SCRAPBOOK_DIR}/$1"
+  if [ ! -f "${name}" ]; then
+    echo "ERROR: No scrap named $1 was found."
+    return 1
+  fi
+
+  return 0
+
+}  #  End of function  _check_scrap.
+
+
+function lsscrap() {
+  local sbdir=${1:-"${SCRAPBOOK_DIR}"}
+  [ -d  "${sbdir}" ] || mkdir -p "${sbdir}"
+
+  ls -R "${sbdir}"
+
+}  #  End of function  lsscrap.
+
+
+function lsascrap() {
+  local sbdir=${1:-"${SCRAPBOOK_DIR}"}
+  [ -d  "${sbdir}" ] || mkdir -p "${sbdir}"
+
+  ls -Ra "${sbdir}"
+
+}  #  End of function  lsascrap.
+
+
+function editscrap() {
+  _check_scrap "$1"  ||  return
+
+  vi "${SCRAPBOOK_DIR}/$1"
+
+}  #  End of function  editscrap.
+
+
+function viewscrap() {
+  _check_scrap "$1"  ||  return
+
+  view "${SCRAPBOOK_DIR}/$1"
+
+}  #  End of function  viewscrap.
+
+
+function prscrap() {
+  _check_scrap "$1"  ||  return
+
+  cat "${SCRAPBOOK_DIR}/$1"
+
+}  #  End of function  prscrap.
+
+
+function archivescrap() {
+  _check_scrap "$1"  ||  return
+
+  local destdir="${SCRAPBOOK_DIR}/.archive"
+  mkdir -p "${destdir}"
+
+  local srcf="${SCRAPBOOK_DIR}/$1"
+  local destf="${destdir}/$1"
+
+  mv "${srcf}" "${destf}"
+
+}  #  End of function  archivescrap.
+
+
+function scrap() {
+  if [ -z "$1" ]; then
+    lsscrap
+    return
+  fi
+
+  local name="${SCRAPBOOK_DIR}/$1"
+  mkdir -p "$(dirname "${name}")"
+
+  echo "
+
+On $(date), you shaped the electrons to say:" >> "${name}"
+
+  cat >> "${name}"
+ 
+}  #  End of function  scrap.
+
+
+function _setup_scrapper() {
+  :
+
+}  #  End of function  _setup_scrapper.
+
+
+#
+#  _main():
+#
+_setup_scrapper

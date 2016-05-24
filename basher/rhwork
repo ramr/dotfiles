@@ -98,8 +98,8 @@ function _setup_kube_aliases {
 
 function dump_etcd_keys() {
   local certsdir="${OS3SRCDIR}/openshift.local.config/master"
-  local creds="--cert ${certsdir}/etcd.server.crt  \
-               --key ${certsdir}/etcd.server.key"
+  local creds="--cert ${certsdir}/master.etcd-client.crt  \
+               --key ${certsdir}/master.etcd-client.key"
 
   curl ${curlopts} -q -s -k ${creds} https://127.0.0.1:4001/v2/keys/$1
 
@@ -120,7 +120,8 @@ function _setup_os3_env() {
   alias cdpg="cd ${OS3SRCDIR}/../../ramr/src"
 
   local os3bin=$(which openshift) || "${osbinpath}/openshift"
-  local os3startcmd="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
+  # local os3startcmd="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
+  local os3startcmd="${os3bin} start &> /tmp/openshift.log"
 
   alias startos3="cd ${OS3SRCDIR}; sudo bash -c \"nohup ${os3startcmd} &\" "
   alias stopos3="sudo pkill openshift"

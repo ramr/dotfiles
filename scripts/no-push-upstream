@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec $(DIRNAME "$0")/no-push-remote upstream
+exec $(dirname "$0")/no-push-remote upstream

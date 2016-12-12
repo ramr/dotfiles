@@ -45,6 +45,12 @@ function clipboard() {
 }  #  End of function  clipboard.
 
 
+function _macosx__setup_python_startup() {
+  export PYTHONSTARTUP=~/.pythonrc
+
+}  #  End of function  _macosx__setup_python_startup.
+
+
 function _macosx__setup_aliases() {
   alias clip="clipboard"
   alias hinv="system_profiler"
@@ -60,6 +66,8 @@ function _macosx__setup_aliases() {
   alias spindump-off="spindumpctl off > /dev/null 2>&1"
   alias cupswebon="cupsctl WebInterface=yes"
   alias cupsweboff="cupsctl WebInterface=no"
+
+  alias sha256sum="shasum -a 256"
 
 }  #  End of function  _macosx__setup_aliases.
 
@@ -87,5 +95,7 @@ function _macosx__setup_docker() {
 _macosx__setup_aliases
 
 _macosx__setup_bash_completion
+
+_macosx__setup_python_startup
 
 _macosx__setup_docker

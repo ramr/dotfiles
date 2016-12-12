@@ -1,9 +1,47 @@
 #!/bin/bash
 
 
+function open() {
+  if [ -z "$1" ] || [ "$1" == "." ] || [ "$1" == "Finder" ]; then
+    xdg-open .
+    return $?
+  else
+    if [ "$1" == "xterm" ]; then
+      local termapp=${_desktop_terminal_app:-""}
+      if [ -n "${termapp}" ]; then
+	shift
+        ${termapp} "$@"
+        return $?
+      fi
+    fi
+  fi
+
+  xdg-open "$@"
+
+}  #  End of function  open.
+
+
+function _setup_elementary_os() {
+  local fileapp="pantheon-files"
+  local termapp="pantheon-terminal"
+
+  export _desktop_file_app=$(which "${fileapp}")
+  export _desktop_terminal_app=$(which "${termapp}")
+
+  alias Finder="${fileapp}"
+  alias xterm="${termapp}"
+
+}  #  End of function  _setup_elementary_os.
+
+
 function _setup_linux_aliases() {
   alias ntpupdate="sudo ntpdate -s time.nist.gov"
   alias pkgcleanup="sudo apt-get autoremove"
+
+  local distid=$(lsb_release -si)
+  if type _setup_${distid}_os > /dev/null 2>&1 ; then
+    _setup_${distid}_os
+  fi
 
 }  #  End of function  _setup_linux_aliases.
 

@@ -129,7 +129,7 @@ function _setup_os3_env() {
 
   export KUBECONFIG="${OS3SRCDIR}/openshift.local.config/master/admin.kubeconfig"
   export OPENSHIFTCONFIG="${KUBECONFIG}"
-  export CURL_CA_BUNDLE="${OS3SRCDIR}/openshift.local.config/master/ca.crt"
+  # export CURL_CA_BUNDLE="${OS3SRCDIR}/openshift.local.config/master/ca.crt"
   if [ -f "$KUBECONFIG" ]; then
     [ -r "$KUBECONFIG" ] || sudo chmod +r "$KUBECONFIG"
   fi

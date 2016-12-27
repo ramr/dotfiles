@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+NHOURS=${1:-"40"}
+DELAY_SECS=$((NHOURS * 60 * 60))
+
+echo "  - Setting standby + autopower off delay to $NHOURS hours ... "
+sudo pmset -a standbydelay  ${DELAY_SECS}
+sudo pmset -a autopoweroffdelay ${DELAY_SECS}
+
+echo ""
+echo "  - Current sleep settings are: "
+sudo pmset -g | egrep -e 'delay|standby|sleep|hibernate'

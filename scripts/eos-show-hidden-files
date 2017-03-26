@@ -1,0 +1,59 @@
+#!/bin/bash
+
+
+#
+#  Get boolean flag value.
+#
+#  Usage:  _get_boolean_value  <value>
+#
+#  Examples:
+#    _get_boolean_value           #  ==> true
+#    _get_boolean_value  "true"   #  ==> true
+#    _get_boolean_value  "yes"    #  ==> true
+#    _get_boolean_value  "yeah"   #  ==> true
+#    _get_boolean_value  "yah"    #  ==> true
+#
+#    _get_boolean_value  "1"      #  ==> false
+#    _get_boolean_value  "false"  #  ==> false
+#    _get_boolean_value  "no"     #  ==> false
+#    _get_boolean_value  "nope"   #  ==> false
+#    _get_boolean_value  "nah"    #  ==> false
+#    _get_boolean_value  "0"      #  ==> false
+#
+function _get_boolean_value() {
+  local bool=${1:-""}
+
+  case "$(echo "${bool}" | tr '[:upper:]' '[:lower:]')" in
+    true|yes|yup|yeah|yah|1)  echo "true"   ;;
+    false|no|nope|nah|0)      echo "false"  ;;
+    *)                        echo "true"   ;;
+  esac
+
+}  #  End of function  _get_boolean_value.
+
+#
+#  Show/hide hidden files in the pantheon file manager on Elementary OS.
+#
+#  Usage:  _show_eos_hidden_files  <boolean-flag>
+#
+#  Examples:
+#    _show_eos_hidden_files  "true"
+#
+#    _show_eos_hidden_files           #  same as _show_eos_hidden_files "true"
+#
+#    _show_eos_hidden_files  ""       #  same as _show_eos_hidden_files "true"
+#
+#    _show_eos_hidden_files  "false"
+#
+function _show_eos_hidden_files() {
+  local arg=$(_get_boolean_value "$1")
+
+  gsettings set org.pantheon.files.preferences show-hiddenfiles "${arg}"
+
+}  #  End of function  _show_eos_hidden_files.
+
+
+#
+#  main():
+#
+_show_eos_hidden_files "$@"

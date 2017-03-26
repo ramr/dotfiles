@@ -1,0 +1,52 @@
+#!/bin/bash
+
+IMAGES=~/.wallpapers
+
+
+#
+#  Ensure dbus settings.
+#
+#  Usage:  _ensure_dbus_settings
+#
+#  Examples:
+#    _ensure_dbus_settings
+#
+function _ensure_dbus_settings() {
+  if [ -n "${DBUS_SESSION_BUS_ADDRESS}" ]; then
+    return 0
+  fi
+
+  echo "  - Loading dbus session settings ... "
+  for f in ~/.dbus/session-bus/*; do
+    set -o allexport
+    source "${f}"
+    set +o allexport
+  done
+
+}  #  End of function  _ensure_dbus_settings.
+
+
+#
+#  Use a random image as the wallpaper.
+#
+#  Usage:  _set_random_wallpaper
+#
+#  Examples:
+#    _set_random_wallpaper
+#
+function _set_random_wallpaper() {
+  _ensure_dbus_settings
+
+  local img=$(find ${IMAGES} -type f | shuf -n 1)
+  echo "  - Switching wallpaper ... "
+  echo "      picture=${img} "
+
+  gsettings set org.gnome.desktop.background picture-uri "file://${img}"
+
+}  #  End of function  _set_random_wallpaper.
+
+
+#
+#  main():  Pick a random image and use it as the wallpaper.
+#
+_set_random_wallpaper

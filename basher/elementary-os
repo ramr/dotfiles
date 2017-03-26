@@ -2,14 +2,30 @@
 
 # key bindings
 
+#
+#  Set a gnome schema specific key.
+#
+#  Usage:  _gset <schema> <key> [ <value> ]
+#
+#  Examples:
+#    _gset org.gnome.desktop.wm.keybindings close "['<Alt>W']"
+#
+#    _gset org.gnome.desktop.wm.keybindings close
+#
 function _gset() {
-  if [ -n "$1" ]  &&  [ -n "$2" ]; then
-    gsettings set $1 $2 "${3-''}"
-  fi
+  [ -n "$1" ] && [ -n "$2" ] && gsettings set $1 $2 "${3-''}"
 
 }  #  End of function  _gset.
 
 
+#
+#  Setup elementary OS specific key bindings.
+#
+#  Usage:  _setup_key_bindings
+#
+#  Examples:
+#    _setup_key_bindings
+#
 function _setup_key_bindings() {
   _gset org.gnome.desktop.wm.keybindings panel-main-menu "['<Alt>space', '<Alt>F2']"
   _gset org.gnome.desktop.wm.keybindings activate-window-menu "['<Super>space']"
@@ -31,18 +47,16 @@ function _setup_key_bindings() {
 }  #  End of function  _setup_key_bindings.
 
 
-function _save_dbus_session() {
-  if [ -n "${DBUS_SESSION_BUS_ADDRESS}" ]; then
-    echo "DBUS_SESSION_BUS_ADDRESS=\"${DBUS_SESSION_BUS_ADDRESS}\""  > ~/.dbus_session
-  fi
-
-}  #  End of function  _save_dbus_session.
-
-
+#
+#  Elementary OS specific setup.
+#
+#  Usage:  _eos_setup
+#
+#  Examples:
+#    _eos_setup
+#
 function _eos_setup() {
   _setup_key_bindings
-
-  _save_dbus_session
 
 }  #  End of function  _eos_setup.
 

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# key bindings
+
+function _gset() {
+  if [ -n "$1" ]  &&  [ -n "$2" ]; then
+    gsettings set $1 $2 "${3-''}"
+  fi
+
+}  #  End of function  _gset.
+
+
+function _setup_key_bindings() {
+  _gset org.gnome.desktop.wm.keybindings panel-main-menu "['<Alt>space', '<Alt>F2']"
+  _gset org.gnome.desktop.wm.keybindings activate-window-menu "['<Super>space']"
+  _gset org.freedesktop.ibus.general.hotkey triggers "['<Alt>space']"
+
+  _gset org.gnome.desktop.wm.keybindings close "['<Alt>W']"
+  _gset org.gnome.desktop.wm.keybindings show-desktop "['<Alt>Down']"
+
+  _gset org.pantheon.desktop.gala.keybindings switch-to-workspace-first "['<Alt>Home', '<Alt>KP_Home']"
+  _gset org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Super>Left']"
+  _gset org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Super>Right']"
+
+  _gset org.pantheon.terminal.settings foreground '#424242'
+  _gset org.pantheon.terminal.settings background 'rgb(250,250,250)'
+
+  _gset org.gnome.desktop.wm.keybindings toggle-maximized "['<Shift><Alt>f']"
+  _gset org.gnome.desktop.wm.keybindings minimize "['<Alt>m']"
+
+}  #  End of function  _setup_key_bindings.
+
+
+function _save_dbus_session() {
+  if [ -n "${DBUS_SESSION_BUS_ADDRESS}" ]; then
+    echo "DBUS_SESSION_BUS_ADDRESS=\"${DBUS_SESSION_BUS_ADDRESS}\""  > ~/.dbus_session
+  fi
+
+}  #  End of function  _save_dbus_session.
+
+
+function _eos_setup() {
+  _setup_key_bindings
+
+  _save_dbus_session
+
+}  #  End of function  _eos_setup.
+
+
+#
+#  main():
+#
+_eos_setup

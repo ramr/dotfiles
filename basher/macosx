@@ -2,6 +2,30 @@
 
 # set -o posix
 
+function _volume_mute_control() {
+  local opt=${1:-"false"}
+  local cmd="set volume without output muted"
+
+  case "${opt}" in
+    with|on|true|1)      cmd="set volume with output muted"     ;;
+    without|off|false|0) cmd="set volume without output muted"  ;;
+  esac
+
+  osascript -e "tell application \"System Events\" to ${cmd}"
+
+}  #  End of function  volumecontrol.
+
+
+function _toggle_volume_mute() {
+  local current=$(osascript -e 'output muted of (get volume settings)')
+  if [ "${current}" = "false" ]; then
+    _volume_mute_control "on"
+  else
+    _volume_mute_control "off"
+  fi
+
+}  #  End of function   toggle_volume_mute.
+
 
 function termrun() {
   osascript 2>/dev/null <<EOF
@@ -68,6 +92,10 @@ function _macosx__setup_aliases() {
   alias cupsweboff="cupsctl WebInterface=no"
 
   alias sha256sum="shasum -a 256"
+
+  alias mutevol="_volume_mute_control on"
+  alias unmutevol="_volume_mute_control off"
+  alias togglemutevol="_toggle_volume_mute"
 
 }  #  End of function  _macosx__setup_aliases.
 

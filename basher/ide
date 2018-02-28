@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function _ide_setup() {
+  local mydir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  for f in `ls "${mydir}"/langs`; do
+     source "${mydir}/langs/$f"
+  done
+
+}  #  End of function  _ide_setup.
+
+
+#
+_ide_setup

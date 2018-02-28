@@ -1,0 +1,28 @@
+#!/bin/bash
+
+VIMGO_SRC_DIR="${HOME}/.vim_go_runtime"
+VIMGO_RC_FILE="${HOME}/.vimrc.go"
+
+#
+#  setup vimgo.
+#
+function _vimgo_setup() {
+  if [ ! -d "${VIMGO_SRC_DIR}" ]; then
+    git clone git@github.com:farazdagi/vim-go-ide.git "${VIMGO_SRC_DIR}"
+  fi
+
+  if [ ! -f "${VIMGO_RC_FILE}" ]; then
+    sh "${VIMGO_SRC_DIR}"/bin/install
+  fi
+
+}  #  End of function  _vimgo_setup.
+
+
+#  vimgo.
+function vimgo() {
+  #  Ensure vimgo is setup.
+  _vimgo_setup
+
+  vim -u "${VIMGO_RC_FILE}" "$@"
+
+}  #  End of function  vimgo.

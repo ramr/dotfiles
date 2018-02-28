@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export CACHE_TIME=3600
+export CACHE_TIME=36000
 
 
 #

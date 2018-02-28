@@ -120,19 +120,24 @@ function _setup_os3_env() {
   alias cdpg="cd ${OS3SRCDIR}/../../ramr/src"
 
   local os3bin=$(which openshift) || "${osbinpath}/openshift"
-  # local os3startcmd="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
   local os3startcmd="${os3bin} start &> /tmp/openshift.log"
+  local os3startcmd_verbose="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
 
-  alias startos3="cd ${OS3SRCDIR}; sudo bash -c \"nohup ${os3startcmd} &\" "
+  local local_cluster_dir="${OS3SRCDIR}/_ramr/local-cluster"
+  alias startos3="cd ${local_cluster_dir}; sudo bash -c \"nohup ${os3startcmd} &\" "
+  alias startos3dbg="cd ${local_cluster_dir}; sudo bash -c \"nohup ${os3startcmd_verbose} &\" "
   alias stopos3="sudo pkill openshift"
   alias restartos3="stopos3 || true; startos3"
 
-  export KUBECONFIG="${OS3SRCDIR}/openshift.local.config/master/admin.kubeconfig"
+  export KUBECONFIG="${local_cluster_dir}/openshift.local.config/master/admin.kubeconfig"
   export OPENSHIFTCONFIG="${KUBECONFIG}"
-  # export CURL_CA_BUNDLE="${OS3SRCDIR}/openshift.local.config/master/ca.crt"
+  export CURL_CA_BUNDLE="${local_cluster_dir}/openshift.local.config/master/ca.crt"
   if [ -f "$KUBECONFIG" ]; then
     [ -r "$KUBECONFIG" ] || sudo chmod +r "$KUBECONFIG"
   fi
+
+  local bcfile="${OS3SRCDIR}/_ramr/os3_bash_completion.sh"
+  [ -f "${bcfile}" ] && source "${bcfile}"
 
 }  #  End of function  _setup_os3_env.
 

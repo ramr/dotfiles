@@ -27,9 +27,12 @@ function print_dir_diffs() {
   diff -w "${tmpf}-d1" "${tmpf}-d2" > /dev/null 2>&1
 
   if [ $? -ne 0 ]; then
+    echo ""
     echo "@@@ directory $2 doesn't match source ..."
     comm -3 "${tmpf}-d1" "${tmpf}-d2"
     ndiffs=$((ndiffs + 1))
+    echo ""
+    echo -n "# "
   else
     echo -n '.'
   fi
@@ -40,7 +43,11 @@ function print_dir_diffs() {
 
 
 function diff_directories() {
+  [ -e "$2" ]  ||  return ${ndiffs}
+
   print_dir_diffs "$1" "$2" "$3"
+
+  [ -d "$2" ]  ||  return ${ndiffs}
 
   while read fname; do
     if [ -d "$1/${fname}" ]; then

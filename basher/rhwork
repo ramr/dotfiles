@@ -140,6 +140,7 @@ function _setup_os3_env() {
 function _setup_env() {
   export GOPATH="${WORKAREA}/redhat"
   export PATH=${PATH}:${GOPATH}/bin
+  export OS_OUTPUT_GOPATH=1
 
   alias cdos="cd ${WORKAREA}/redhat/src/github.com/openshift/origin"
   alias cdat="cd ${WORKAREA}/redhat/atomic"

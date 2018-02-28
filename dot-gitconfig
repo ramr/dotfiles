@@ -20,6 +20,7 @@
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
 	lsuntracked = ls-files . --ignored --exclude-standard --others
 	lcrev = log --reverse --no-merges --stat @{1}..
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	changes = diff --name-status -r
 	diffstat = diff --stat -r
 	mchanges = diff @{u}.. --name-status -r
@@ -27,6 +28,7 @@
 	mdiffstat = diff @{u}.. --stat -r
 	mlist = diff @{u}.. --name-status
 	mlog = log @{u}..
+	brcommits = git log ^master --no-merges
 	branch-name = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
      ll = log --graph --oneline  --decorate --date=short --all --pretty=format:'%ad %h %Cgreen%an %Cred%d %Creset%s'

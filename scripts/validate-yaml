@@ -1,0 +1,6 @@
+#!/bin/bash
+
+python <<PYEOF
+from yaml import load, Loader
+load(open('$1'), Loader=Loader)
+PYEOF

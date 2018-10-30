@@ -124,8 +124,8 @@ function _setup_os3_env() {
   local os3startcmd_verbose="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
 
   local local_cluster_dir="${OS3SRCDIR}/_ramr/local-cluster"
-  alias startos3="cd ${local_cluster_dir}; sudo bash -c \"nohup ${os3startcmd} &\" "
-  alias startos3dbg="cd ${local_cluster_dir}; sudo bash -c \"nohup ${os3startcmd_verbose} &\" "
+  alias startos3="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd} &\" "
+  alias startos3dbg="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd_verbose} &\" "
   alias stopos3="sudo pkill openshift"
   alias restartos3="stopos3 || true; startos3"
 

@@ -153,7 +153,7 @@ function _setup_env() {
   alias cdkube="cd ${WORKAREA}/redhat/src/github.com/ramr/kubernetes"
   alias cdnotes="cd ${WORKAREA}/redhat/notes"
   alias hb="ssh fedora@higgs-boson"
-  alias os3dev="ssh ramr@os3dev"
+  alias os3dev="ssh ramr@os3dev" # -X "mosh ramr@os3dev -- tmux a"
   alias o3dev="os3dev"
 
   _setup_os3_env

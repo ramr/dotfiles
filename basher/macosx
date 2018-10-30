@@ -69,6 +69,13 @@ function clipboard() {
 }  #  End of function  clipboard.
 
 
+function _macosx__mosh_setup() {
+  export LANG="en_US.UTF-8"
+  locale &> /dev/null || echo "Error: Setting locale to ${LANG} for mosh."
+
+}  #  End of function  _macosx__mosh_setup.
+
+
 function _macosx__setup_python_startup() {
   export PYTHONSTARTUP=~/.pythonrc
 
@@ -126,6 +133,8 @@ function _macosx__setup_docker() {
 _macosx__setup_aliases
 
 _macosx__setup_bash_completion
+
+_macosx__mosh_setup
 
 _macosx__setup_python_startup
 

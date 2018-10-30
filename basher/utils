@@ -1,4 +1,16 @@
-# .bash_utils
+#!/bin/bash
+
+
+function sshjump {
+  expect -c "
+spawn -noecho ssh -X -A $1;
+send \"ssh -X $2\r\";
+send \"cdos\r\";
+interact -o eof return
+"
+
+}  #  End of function  sshjump.
+
 
 function rrhc() { 
    `which rhc` "$@" -p "`cat ~/.openshift/.pc`";

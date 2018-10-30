@@ -1,0 +1,3 @@
+#!/bin/bash
+
+time make && time ./hack/build-local-images.py haproxy-router && router-restart

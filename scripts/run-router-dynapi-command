@@ -1,0 +1,15 @@
+#!/bin/bash
+
+dynapi_cmd=${1:-"show info"}
+repeat=${2:-1}
+
+pod=$(oc get pods -o name | grep router | grep -v deploy | head -n 1)
+
+cmd="echo $dynapi_cmd | socat /var/lib/haproxy/run/haproxy.sock stdio"
+
+script=""
+for i in `seq $repeat`; do
+  script="${script}\necho iter #$i: \n$cmd\nsleep 0.5\n"
+done
+
+echo -e "$script" | oc rsh $pod

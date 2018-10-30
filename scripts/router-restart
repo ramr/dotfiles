@@ -1,0 +1,5 @@
+#!/bin/bash
+
+oc delete dc/router service/router
+oc adm router --latest-images=true
+

@@ -4,8 +4,8 @@
 function sshjump {
   expect -c "
 spawn -noecho ssh -X -A $1;
-send \"ssh -X $2\r\";
-send \"cdos\r\";
+send \"ssh -X $2\\r\";
+send \"cdos\\r\";
 interact -o eof return
 "
 
@@ -13,7 +13,7 @@ interact -o eof return
 
 
 function rrhc() { 
-   `which rhc` "$@" -p "`cat ~/.openshift/.pc`";
+   "$(which rhc)" "$@" -p "$(cat ~/.openshift/.pc)";
 
 }  #  End of function  rhc.
 

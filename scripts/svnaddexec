@@ -4,4 +4,4 @@
 #
 #  main():
 #
-svn propset svn:executable ON $*
+svn propset svn:executable ON "$@"

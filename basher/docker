@@ -1,14 +1,18 @@
 #!/bin/bash
 
+#shellcheck disable=SC2032
 function docker() {
-   sudo docker "$@"
+  # shellcheck disable=SC2033
+  sudo docker "$@"
 }
 
 function dockerip() {
+  # shellcheck disable=SC2033
   sudo docker inspect --format "{{ .NetworkSettings.IPAddress }}" "$@"
 }
 
 function containerpid() {
+  # shellcheck disable=SC2033
   sudo docker inspect --format "{{ .State.Pid }}" "$1"
 
 }  #  End of function  containerpid.
@@ -21,7 +25,7 @@ function dockexec() {
 
 
 function enter() {
-  sudo nsenter -m -u -n -i -p -t $(containerpid "$1")
+  sudo nsenter -m -u -n -i -p -t "$(containerpid "$1")"
 
 }  #  End of function  enter.
 
@@ -31,11 +35,13 @@ function dockclean() {
 
   if [ "$what" = "all" ] || [ "$what" = "containers" ]; then
     # remove all docker containers
+    # shellcheck disable=SC2046
     docker rm $(docker ps -a -q)
   fi
 
   if [ "$what" = "all" ] || [ "$what" = "images" ]; then
     # remove all docker images
+    # shellcheck disable=SC2046
     docker rmi $(docker images)
   fi
 

@@ -2,7 +2,8 @@
 
 
 function _ensure_git_completions() {
-  local mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  local mydir
+  mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
   local gitcompletion=${1:-"${mydir}/downloads/completions.git"}
 
   if [ ! -f "${gitcompletion}" ]; then
@@ -16,11 +17,13 @@ function _ensure_git_completions() {
 
 
 function _setup_completions() {
-  local mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  local mydir
+  mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
   local gitcfg="${mydir}/downloads/completions.git"
 
   _ensure_git_completions  "${gitcfg}"
 
+  # shellcheck disable=SC1090
   source "${gitcfg}"
 
 }  #  End of function  _setup_completions.

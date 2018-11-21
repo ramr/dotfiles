@@ -5,13 +5,13 @@ if (test $# -lt 1); then
    exit 0;
 fi
 
-TMP_FILE=/tmp/$(basename $0).$$
-for f in $@; do
+TMP_FILE="/tmp/$(basename "$0").$$"
+for f in "$@"; do
    echo "@@@ --- Checking file $f ..."
-   perl -pe 's#\r\n#\n#' $f > $TMP_FILE
+   perl -pe 's#\r\n#\n#' "$f" > "$TMP_FILE"
    python -c "compile(open('$TMP_FILE').read(), '$TMP_FILE', 'exec')" 
    echo "@@@ --- Completed checking file $f "
    echo ""
 done
 
-rm -f $TMP_FILE
+rm -f "$TMP_FILE"

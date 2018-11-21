@@ -19,6 +19,7 @@ function _ensure_dbus_settings() {
   echo "  - Loading dbus session settings ... "
   for f in ~/.dbus/session-bus/*; do
     set -o allexport
+    # shellcheck disable=SC1090
     source "${f}"
     set +o allexport
   done
@@ -37,7 +38,8 @@ function _ensure_dbus_settings() {
 function _set_random_wallpaper() {
   _ensure_dbus_settings
 
-  local img=$(find ${IMAGES} -type f | shuf -n 1)
+  local img
+  img=$(find ${IMAGES} -type f | shuf -n 1)
   echo "  - Switching wallpaper ... "
   echo "      picture=${img} "
 

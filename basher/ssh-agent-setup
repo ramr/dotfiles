@@ -7,6 +7,7 @@ SSH_KEY=~/.ssh/id_rsa_ramr
 function _add_ssh_keys_to_agent {
   chmod 600 "${SSH_ENV}"
 
+  # shellcheck disable=SC1090
   . "${SSH_ENV}" > /dev/null
 
   /usr/bin/ssh-add "${SSH_KEY}"
@@ -28,10 +29,11 @@ function _setup_ssh_agent() {
   # Source SSH settings, if applicable
   # unset SSH_ASKPASS
   if [ -f "${SSH_ENV}" ]; then
+    # shellcheck disable=SC1090
     . "${SSH_ENV}" > /dev/null
     #ps ${SSH_AGENT_PID} doesn't work under cywgin
-    ps -ef | grep ${SSH_AGENT_PID} | grep "ssh-agent$" > /dev/null || {
-        _start_ssh_agent;
+    pgrep ssh-agent | grep "${SSH_AGENT_PID}" > /dev/null || {
+      _start_ssh_agent;
     }
   else
     _start_ssh_agent;

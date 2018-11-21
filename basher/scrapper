@@ -15,6 +15,7 @@ function _check_scrap() {
 }  #  End of function  _check_scrap.
 
 
+# shellcheck disable=SC2120
 function lsscrap() {
   local sbdir=${1:-"${SCRAPBOOK_DIR}"}
   [ -d  "${sbdir}" ] || mkdir -p "${sbdir}"
@@ -73,6 +74,7 @@ function archivescrap() {
 
 function scrap() {
   if [ -z "$1" ]; then
+    # shellcheck disable=SC2119
     lsscrap
     return
   fi

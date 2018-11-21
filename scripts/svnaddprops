@@ -3,4 +3,4 @@
 #
 #  main():
 #
-svn propset svn:keywords "Date URL Revision" $*
+svn propset svn:keywords "Date URL Revision" "$@"

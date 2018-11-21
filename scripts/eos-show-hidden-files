@@ -46,7 +46,8 @@ function _get_boolean_value() {
 #    _show_eos_hidden_files  "false"
 #
 function _show_eos_hidden_files() {
-  local arg=$(_get_boolean_value "$1")
+  local arg
+  arg=$(_get_boolean_value "$1")
 
   gsettings set org.pantheon.files.preferences show-hiddenfiles "${arg}"
 

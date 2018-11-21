@@ -1,4 +1,0 @@
-#!/bin/bash
-
-kill echo $(ps -ef | grep lechef | grep -v grep | awk '{print $2}')
-

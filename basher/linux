@@ -22,14 +22,13 @@ function open() {
 
 
 function _setup_elementary_os() {
-  local fileapp="pantheon-files"
-  local termapp="pantheon-terminal"
+  _desktop_file_app=$(which pantheon-files)
+  export _desktop_file_app
+  _desktop_terminal_app=$(which pantheon-terminal)
+  export _desktop_terminal_app
 
-  export _desktop_file_app=$(which "${fileapp}")
-  export _desktop_terminal_app=$(which "${termapp}")
-
-  alias Finder="${fileapp}"
-  alias xterm="${termapp}"
+  alias Finder="pantheon-files"
+  alias xterm="pantheon-terminal"
 
 }  #  End of function  _setup_elementary_os.
 
@@ -38,9 +37,10 @@ function _setup_linux_aliases() {
   alias ntpupdate="sudo ntpdate -s time.nist.gov"
   alias pkgcleanup="sudo apt-get autoremove"
 
-  local distid=$(lsb_release -si)
-  if type _setup_${distid}_os > /dev/null 2>&1 ; then
-    _setup_${distid}_os
+  local distid
+  distid=$(lsb_release -si)
+  if type _setup_"${distid}"_os > /dev/null 2>&1 ; then
+    _setup_"${distid}"_os
   fi
 
 }  #  End of function  _setup_linux_aliases.

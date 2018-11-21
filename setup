@@ -12,7 +12,7 @@ function _generate_bashrc_dotfiles_hook_in() {
 # User specific aliases and functions
 function _load_dotfiles() {
   local dotfiles_setup=${DOTFILES_DIR}/setup
-  [ -f "\$dotfiles_setup" ]  &&  source "\$dotfiles_setup"
+  [ -f \"\$dotfiles_setup\" ]  &&  source \"\$dotfiles_setup\"
 
 }  #  End of function  load_dotfiles.
 
@@ -28,8 +28,8 @@ _load_dotfiles
 
 function _setup_config_symlinks() {
   for file in dot-gitconfig dot-gitignore dot-vimrc; do
-    dotconfig=$(echo $file | sed 's/dot-/\./')
-    [ -f ~/"$dotconfig" ] || ln -s $DOTFILES_DIR/$file ~/$dotconfig
+    dotconfig="${file//dot-/\.}"
+    [ -f ~/"$dotconfig" ] || ln -s "${DOTFILES_DIR}/${file}" ~/"$dotconfig"
   done
 
 }  #  End of function  _setup_config_symlinks.
@@ -44,7 +44,11 @@ function _setup() {
 
   #  And source in the "basher" setup.
   local basher_setup=${DOTFILES_DIR}/basher/setup
+
+  # shellcheck disable=SC1090
   [ -f "$basher_setup" ]  &&  source "$basher_setup"
+
+  alias cddotfiles="cd \${DOTFILES_DIR}"
 
 }  #  End of function  _setup.
 

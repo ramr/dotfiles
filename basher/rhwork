@@ -1,6 +1,7 @@
-### Red Hat
+#!/bin/bash
 
-#  Functions.
+### Red Hat specific config.
+
 function create_test_env() {
   openshift ex policy add-role-to-user view anypassword:test-admin
 
@@ -47,9 +48,56 @@ function dump_etcd_keys() {
   local creds="--cert ${certsdir}/master.etcd-client.crt  \
                --key ${certsdir}/master.etcd-client.key"
 
-  curl ${curlopts} -q -s -k ${creds} https://127.0.0.1:4001/v2/keys/$1
+  curl -q -s -k "${creds}" "https://127.0.0.1:4001/v2/keys/$1"
 
 }  #  End of function  _dump_etcd_keys.
+
+
+function _setup_os310_aliases() {
+  local osbinpath="${OS3SRCDIR}/_output/local/bin/linux/amd64"
+  local os3bin
+  os3bin=$(which openshift) || "${osbinpath}/openshift"
+
+  local os3startcmd="${os3bin} start &> /tmp/openshift.log"
+  local os3startcmd_verbose="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
+
+  local local_cluster_dir="${OS3SRCDIR}/_ramr/local-cluster"
+
+  # shellcheck disable=SC2139
+  alias startos3="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd} &\" "
+
+  # shellcheck disable=SC2139
+  alias startos3dbg="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd_verbose} &\" "
+  alias stopos3="sudo pkill openshift"
+
+  alias restartos3="stopos3 || true; startos3"
+
+  export KUBECONFIG="${local_cluster_dir}/openshift.local.config/master/admin.kubeconfig"
+  export OPENSHIFTCONFIG="${KUBECONFIG}"
+  export CURL_CA_BUNDLE="${local_cluster_dir}/openshift.local.config/master/ca.crt"
+
+}  #  End of function  _setup_os310_aliases.
+
+
+function _setup_os311_aliases() {
+  local local_cluster_dir="${OS3SRCDIR}/_ramr/local-cluster"
+
+  # shellcheck disable=SC2139
+  alias startos3="sudo bash -c \"cd ${local_cluster_dir}; oc cluster up\" "
+
+  # shellcheck disable=SC2139
+  alias startos3dbg="sudo bash -c \"cd ${local_cluster_dir}; oc cluster up --loglevel=4\" "
+
+  # shellcheck disable=SC2139
+  alias stopos3="sudo bash -c \"cd ${local_cluster_dir}; oc cluster down\" "
+
+  alias restartos3="stopos3 || true; startos3"
+
+  export KUBECONFIG="${local_cluster_dir}/openshift.local.clusterup/openshift-apiserver/admin.kubeconfig"
+  export OPENSHIFTCONFIG="${KUBECONFIG}"
+  export CURL_CA_BUNDLE="${local_cluster_dir}/openshift.local.clusterup/openshift-apiserver/ca.crt"
+
+}  #  End of function  _setup_os311_aliases.
 
 
 function _setup_os3_env() {
@@ -60,36 +108,21 @@ function _setup_os3_env() {
   local osbinpath="${OS3SRCDIR}/_output/local/bin/linux/amd64"
   export PATH="${osbinpath}:${PATH}"
 
-  alias cdos3="cd ${OS3SRCDIR}"
+  alias cdos3="cd \${OS3SRCDIR}"
   alias cdos="cdos3"
   alias cdsrc="cdos3"
-  alias cdpg="cd ${OS3SRCDIR}/../../ramr/src"
+  alias cdpg="cd \${OS3SRCDIR}/../../ramr/src"
 
-  local os3bin=$(which openshift) || "${osbinpath}/openshift"
-  local os310startcmd="${os3bin} start &> /tmp/openshift.log"
-  local os310startcmd_verbose="${os3bin} start --loglevel=4 &> /tmp/openshift.log"
+  # _setup_os310_aliases
+  _setup_os311_aliases
 
-  local local_cluster_dir="${OS3SRCDIR}/_ramr/local-cluster"
-  alias startos310="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd} &\" "
-  alias startos310dbg="sudo bash -c \"cd ${local_cluster_dir}; nohup ${os3startcmd_verbose} &\" "
-  alias stopos310="sudo pkill openshift"
-  alias restartos310="stopos310 || true; startos310"
-  alias startos3="sudo bash -c \"cd ${local_cluster_dir}; oc cluster up\" "
-  alias startos3dbg="sudo bash -c \"cd ${local_cluster_dir}; oc cluster up --loglevel=4\" "
-  alias stopos3="sudo bash -c \"cd ${local_cluster_dir}; oc cluster down\" "
-  alias restartos3="stopos3 || true; startos3"
-
-  export KUBECONFIG311="${local_cluster_dir}/openshift.local.config/master/admin.kubeconfig"
-  export KUBECONFIG="${local_cluster_dir}/openshift.local.clusterup/openshift-apiserver/admin.kubeconfig"
-
-  export OPENSHIFTCONFIG="${KUBECONFIG}"
-  export CURL_CA_BUNDLE311="${local_cluster_dir}/openshift.local.config/master/ca.crt"
-  export CURL_CA_BUNDLE="${local_cluster_dir}/openshift.local.clusterup/openshift-apiserver/ca.crt"
   if [ -f "$KUBECONFIG" ]; then
     [ -r "$KUBECONFIG" ] || sudo chmod +r "$KUBECONFIG"
   fi
 
   local bcfile="${OS3SRCDIR}/_ramr/os3_bash_completion.sh"
+
+  # shellcheck disable=SC1090
   [ -f "${bcfile}" ] && source "${bcfile}"
 
 }  #  End of function  _setup_os3_env.
@@ -100,13 +133,13 @@ function _setup_env() {
   export PATH=${PATH}:${GOPATH}/bin
   export OS_OUTPUT_GOPATH=1
 
-  alias cdos="cd ${WORKAREA}/redhat/src/github.com/openshift/origin"
-  alias cdinst="cd ${WORKAREA}/redhat/src/github.com/installer"
-  alias cdingop="cd ${WORKAREA}/redhat/src/github.com/cluster-ingress-operator"
-  alias cddnsop="cd ${WORKAREA}/redhat/src/github.com/cluster-dns-operator"
-  alias cdoskube="cd ${WORKAREA}/redhat/src/github.com/openshift/origin/Godeps/_workspace/src/github.com/GoogleCloudPlatform/kubernetes/"
-  alias cdkube="cd ${WORKAREA}/redhat/src/github.com/ramr/kubernetes"
-  alias cdnotes="cd ${WORKAREA}/redhat/notes"
+  alias cdos="cd \${WORKAREA}/redhat/src/github.com/openshift/origin"
+  alias cdinst="cd \${WORKAREA}/redhat/src/github.com/installer"
+  alias cdingop="cd \${WORKAREA}/redhat/src/github.com/cluster-ingress-operator"
+  alias cddnsop="cd \${WORKAREA}/redhat/src/github.com/cluster-dns-operator"
+  alias cdoskube="cd \${WORKAREA}/redhat/src/github.com/openshift/origin/vendor/k8s.io/kubernetes"
+  alias cdnotes="cd \${WORKAREA}/redhat/notes"
+
   alias hb="ssh fedora@higgs-boson"
   alias os3dev="ssh ramr@os3dev" # -X "mosh ramr@os3dev -- tmux a"
   alias o3dev="os3dev"

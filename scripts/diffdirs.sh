@@ -8,9 +8,12 @@ function get_dir_info() {
   local zopt=${1:-""}
   local zdir=${2:-"."}
 
+  # find is 10x slower than ls on a network drive.
   if [ "${zopt}" = "-s" ]; then
+    # shellcheck disable=SC2012
     ls -Fs "${zdir}" | sed 's#\*$##g' | sort -k 2 |  grep -v "^total"
   else
+    # shellcheck disable=SC2012
     ls -F "${zdir}" | sed 's#\*$##g'
   fi
 
@@ -24,9 +27,7 @@ function print_dir_diffs() {
   get_dir_info "${sizeopt}" "$1/" > "${tmpf}-d1"
   get_dir_info "${sizeopt}" "$2/" > "${tmpf}-d2"
 
-  diff -w "${tmpf}-d1" "${tmpf}-d2" > /dev/null 2>&1
-
-  if [ $? -ne 0 ]; then
+  if diff -w "${tmpf}-d1" "${tmpf}-d2" > /dev/null 2>&1 ; then
     echo ""
     echo "@@@ directory $2 doesn't match source ..."
     comm -3 "${tmpf}-d1" "${tmpf}-d2"
@@ -49,7 +50,7 @@ function diff_directories() {
 
   [ -d "$2" ]  ||  return ${ndiffs}
 
-  while read fname; do
+  while read -r fname; do
     if [ -d "$1/${fname}" ]; then
       diff_directories "$1/${fname}" "$2/${fname}" "$3"
     fi

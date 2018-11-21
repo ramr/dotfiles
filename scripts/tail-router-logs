@@ -2,4 +2,4 @@
 
 pod=$(oc get pods -o name | grep router | grep -v deploy | head -n 1)
 
-oc logs -f $pod
+oc logs -f "$pod"

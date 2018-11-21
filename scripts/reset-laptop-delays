@@ -10,4 +10,4 @@ sudo pmset -a autopoweroffdelay ${DELAY_SECS}
 
 echo ""
 echo "  - Current sleep settings are: "
-sudo pmset -g | egrep -e 'delay|standby|sleep|hibernate'
+sudo pmset -g | grep -Ee 'delay|standby|sleep|hibernate'

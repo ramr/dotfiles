@@ -31,6 +31,8 @@ function _setup_env() {
   #  path.
   export PATH=~/bin:$DOTFILES_DIR/scripts:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:~/android/sdk/platform-tools:${PATH}
 
+  alias cdbasher="cd \${BASHER_SRC_DIR}"
+
 }  #  End of function  _setup_env.
 
 
@@ -43,10 +45,12 @@ function _load_sources() {
     *)  ;;
   esac
 
-  for f in $(echo "${BASHER_SOURCES} ${custom}"); do
-    local fname="$(get_basher_dir)/$f"
+  for f in ${BASHER_SOURCES} ${custom}; do
+    local fname
+    fname="$(get_basher_dir)/$f"
 
     #  Source file if it exists.
+    # shellcheck disable=SC1090
     [ -f "$fname" ]  &&  source "$fname"
   done
 
@@ -55,8 +59,7 @@ function _load_sources() {
 
 function _setup_prompt() {
   #  Set prompt to also contain git info.
-  export PS1="[\u@\h \W $GREEN\$(get_git_prompt_bits)$BLACK]\$ "
-  # export PS1="[🍺  \u@\h \W $GREEN\$(get_git_prompt_bits)$BLACK]\$ "
+  export PS1="[\\u@\\h \\W $GREEN\$(get_git_prompt_bits)$BLACK]\$ "
 
 }  #  End of function  _setup_prompt.
 

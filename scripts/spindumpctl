@@ -21,4 +21,4 @@ function _spindump_launchctl() {
 #
 #  main():
 #
-_spindump_launchctl "$(echo $1 | tr '[A-Z]' '[a-z]')"
+_spindump_launchctl "$(echo "$1" | tr '[:upper:]' '[:lower:]')"

@@ -1,9 +1,12 @@
 #!/bin/bash
 
 function _ide_setup() {
-  local mydir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-  for f in `ls "${mydir}"/langs`; do
-     source "${mydir}/langs/$f"
+  local mydir
+  mydir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+  for f in "${mydir}"/langs/*; do
+    # shellcheck disable=SC1090
+    source "$f"
   done
 
 }  #  End of function  _ide_setup.

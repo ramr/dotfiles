@@ -17,7 +17,9 @@ function _volume_mute_control() {
 
 
 function _toggle_volume_mute() {
-  local current=$(osascript -e 'output muted of (get volume settings)')
+  local current
+  current=$(osascript -e 'output muted of (get volume settings)')
+
   if [ "${current}" = "false" ]; then
     _volume_mute_control "on"
   else
@@ -30,7 +32,7 @@ function _toggle_volume_mute() {
 function termrun() {
   osascript 2>/dev/null <<EOF
     tell application "Terminal"
-      do script with command "cd \"$PWD\; $@" in window 1
+      do script with command "cd \\"$PWD\\; $@" in window 1
     end tell
 EOF
 
@@ -64,6 +66,7 @@ function VoicesInMyHead() {
 
 #  From HN: https://news.ycombinator.com/item?id=10143143
 function clipboard() {
+  # shellcheck disable=SC2015
   [ -t 0 ] && pbpaste || pbcopy
 
 }  #  End of function  clipboard.
@@ -111,7 +114,10 @@ function _macosx__setup_aliases() {
 
 
 function _macosx__setup_bash_completion() {
-  local bc="$(brew --prefix)/etc/bash_completion)"
+  local bc
+  bc="$(brew --prefix)/etc/bash_completion)"
+
+  # shellcheck disable=SC1090
   [ -f "$bc" ]  &&  source "$bc"
 
 }  #  End of function _macosx__setup_bash_completion

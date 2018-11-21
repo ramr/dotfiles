@@ -20,8 +20,9 @@ function _printUsageAndDie() {
 function _generate_config() {
   [ -z "$1" ]  &&  _printUsageAndDie
 
-  local macaddr=$(ip a s $1 | grep 'link/ether' |  \
-                    sed "s#\s*link/ether\s\+\(.*\)\s\+brd.*#\1#")
+  local macaddr
+  macaddr=$(ip a s "$1" | grep 'link/ether' |  \
+             sed 's#\s*link/ether\s\+\(.*\)\s\+brd.*#\1#')
 
   cat <<MYEOF
 DEVICE="$1"

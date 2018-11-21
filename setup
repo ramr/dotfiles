@@ -28,7 +28,7 @@ _load_dotfiles
 
 function _setup_config_symlinks() {
   for file in dot-gitconfig dot-gitignore dot-vimrc; do
-    dotconfig="${file//dot-/\.}"
+    dotconfig="${file//dot-/.}"
     [ -f ~/"$dotconfig" ] || ln -s "${DOTFILES_DIR}/${file}" ~/"$dotconfig"
   done
 

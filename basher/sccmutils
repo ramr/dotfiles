@@ -51,26 +51,31 @@ function get_git_prompt_bits() {
    fi
 
    local cached=""
+   local nmod="0"
+   local nstaged="0"
+   local ncin="0"
+   local nothers="0"
+
    if [ -f "$statusfile" ]; then
      cached="cached:"
      # shellcheck disable=SC1090
      source "$statusfile"
    else
-     nmod=$(git diff --name-status | wc -l)
-     nstaged=$(git diff --staged --name-status | wc -l)
+     nmod="$(git diff --name-status | wc -l)"
+     nstaged="$(git diff --staged --name-status | wc -l)"
 
      ncin=0
      if git remote -v | grep origin > /dev/null 2>&1; then
-       ncin=$(git mdiff --name-status | wc -l)
+       ncin="$(git mdiff --name-status | wc -l)"
      fi
 
-     nothers=$(git ls-files --others --exclude-standard | wc -l)
+     nothers="$(git ls-files --others --exclude-standard | wc -l)"
 
      cat > "$statusfile" <<STATEOF
-nmod=${nmod}
-nstaged=${nstaged}
-ncin=${ncin}
-nothers=${nothers}
+nmod="${nmod}"
+nstaged="${nstaged}"
+ncin="${ncin}"
+nothers="${nothers}"
 STATEOF
    fi
 

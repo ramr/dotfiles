@@ -27,7 +27,7 @@ function print_dir_diffs() {
   get_dir_info "${sizeopt}" "$1/" > "${tmpf}-d1"
   get_dir_info "${sizeopt}" "$2/" > "${tmpf}-d2"
 
-  if diff -w "${tmpf}-d1" "${tmpf}-d2" > /dev/null 2>&1 ; then
+  if ! diff -w "${tmpf}-d1" "${tmpf}-d2" > /dev/null 2>&1 ; then
     echo ""
     echo "@@@ directory $2 doesn't match source ..."
     comm -3 "${tmpf}-d1" "${tmpf}-d2"

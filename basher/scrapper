@@ -1,6 +1,16 @@
 #!/bin/bash
 
-SCRAPBOOK_DIR=~/.scraps
+SCRAPBOOK_DIR=~/.config/ramr/.scraps
+
+
+function _setup_scrapper_completions() {
+  local scraps=$(lsscrap | tr '\n' ' ')
+
+  for name in scrap prscrap viewscrap editscrap archivescrap; do
+    complete -W "${scraps}" ${name}
+  done
+
+}  #  End of function  _setup_scrapper_completions.
 
 
 function _check_scrap() {
@@ -20,7 +30,7 @@ function lsscrap() {
   local sbdir=${1:-"${SCRAPBOOK_DIR}"}
   [ -d  "${sbdir}" ] || mkdir -p "${sbdir}"
 
-  ls -R "${sbdir}"
+  /bin/ls -R "${sbdir}"
 
 }  #  End of function  lsscrap.
 
@@ -29,7 +39,7 @@ function lsascrap() {
   local sbdir=${1:-"${SCRAPBOOK_DIR}"}
   [ -d  "${sbdir}" ] || mkdir -p "${sbdir}"
 
-  ls -Ra "${sbdir}"
+  /bin/ls -Ra "${sbdir}"
 
 }  #  End of function  lsascrap.
 
@@ -87,12 +97,14 @@ function scrap() {
 On $(date), you shaped the electrons to say:" >> "${name}"
 
   cat >> "${name}"
+
+  _setup_scrapper_completions
  
 }  #  End of function  scrap.
 
 
 function _setup_scrapper() {
-  :
+  _setup_scrapper_completions
 
 }  #  End of function  _setup_scrapper.
 

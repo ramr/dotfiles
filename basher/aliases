@@ -26,6 +26,7 @@ alias getdl='go get -u github.com/derekparker/delve/cmd/dlv'
 
 #  alias dl='docker ps -l -q'
 
+alias pwgen="openssl rand -base64 20"
 
 #  VM aliases.
 alias vm="ssh ramr@tahr"

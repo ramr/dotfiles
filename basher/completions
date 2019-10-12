@@ -1,6 +1,15 @@
 #!/bin/bash
 
 
+function _ensure_bash_completions() {
+  local bcfname="/usr/local/etc/bash_completion";
+  [ -f "${bcfname}" ] && . "${bcfname}"
+
+  return 0
+
+}  #  End of function  _ensure_bash_completions.
+
+
 function _ensure_git_completions() {
   local mydir
   mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -20,6 +29,8 @@ function _setup_completions() {
   local mydir
   mydir=$(cd -P -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)
   local gitcfg="${mydir}/downloads/completions.git"
+
+  _ensure_bash_completions
 
   _ensure_git_completions  "${gitcfg}"
 

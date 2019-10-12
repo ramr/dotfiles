@@ -13,14 +13,15 @@ syntax off                      " syntax off. turn on as needed
 filetype on                     " detect file type automatically
 set textwidth=80                " tw/text width
 set autoindent smartindent      " smart ident
-" set tabstop=4                   " ts/tab stop
-" set shiftwidth=2                " sw/shiftwidth idents 2
-" set softtabstop=2               " tab as indent
+set tabstop=4                   " ts/tab stop
+set shiftwidth=2                " sw/shiftwidth idents 2
+set softtabstop=2               " tab as indent
+" set tabstop=8                   " ts/tab stop
+" set shiftwidth=8                " sw/shiftwidth idents 2
+" set softtabstop=8               " tab as indent
 " set expandtab                   " don't save 'em tabs -- Makefiles caution!!
-set tabstop=8                   " ts/tab stop
-set shiftwidth=8                " sw/shiftwidth idents 2
-set softtabstop=8               " tab as indent
 set noexpandtab                 " don't save 'em tabs -- Makefiles caution!!
+set ic                          " ignore case
 set backspace=eol,start,indent  " allow backspacing on ...
 set ruler                       " show ruler on status bar
 set number                      " show line numbers

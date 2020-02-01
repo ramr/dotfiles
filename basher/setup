@@ -4,7 +4,7 @@ BASHER_SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOTFILES_DIR=$(cd "$(dirname "$BASHER_SRC_DIR")" && pwd)
 
 BASHER_SOURCES="aliases utils completions scrapper colors sccmutils vms ide"
-BASHER_CUSTOM_SOURCES="docker rhwork"  #  crwork rhlibra
+BASHER_CUSTOM_SOURCES="docker riffyn"  #  rhwork crwork rhlibra
 BASHER_LINUX_SOURCES="linux ssh-agent-setup"
 BASHER_MACOSX_SOURCES="macosx"
 

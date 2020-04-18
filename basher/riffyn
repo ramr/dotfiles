@@ -1,0 +1,12 @@
+#!/bin/bash
+
+alias cdr='cd $WORKAREA/riffyn/unity'
+alias cd0='cd $WORKAREA/riffyn/agent-zero'
+alias cdapi='cd $WORKAREA/riffyn/api-service'
+
+# export PACKAGE_DIRS=$WORKAREA/meteor/packages
+export METEOR_PACKAGE_DIRS=$WORKAREA/meteor/packages
+export BIND_IP=0.0.0.0
+export USE_IDP="local"
+
+alias vpn='sudo openvpn --config ~/vpn/riffyn/riffynvpn.ovpn'

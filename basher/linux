@@ -21,6 +21,13 @@ function open() {
 }  #  End of function  open.
 
 
+function old_kernel_loadwaitinfo() {
+  # From  brendangregg.com
+  awk 'NF > 7 { if ($1 == "task") { if (h == 0) { print; h=1 } } else { print } }' /proc/sched_debug
+
+}  #  End of function old_kernel_loadwaitinfo.
+
+
 function _setup_elementary_os() {
   _desktop_file_app=$(which pantheon-files)
   export _desktop_file_app
@@ -34,7 +41,8 @@ function _setup_elementary_os() {
 
 
 function _setup_linux_aliases() {
-  alias ntpupdate="sudo ntpdate -s time.nist.gov"
+  # alias ntpupdate="sudo ntpdate -s time.nist.gov"
+  alias ntpupdate="sudo bash -c 'service ntp stop; ntpd -gq; service ntp start'"
   alias pkgcleanup="sudo apt-get autoremove"
 
   local distid

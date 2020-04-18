@@ -11,5 +11,6 @@ PATH=${PATH}:${HOME}/.rvm/bin # Add RVM to PATH for scripting
 
 
 #  Load NVM into a shell session and use default ... 
-#  [[ -s "${HOME}/.nvm/nvm.sh" ]] && source "${HOME}/.nvm/nvm.sh"
-#  nvm use 0.12.5
+[[ -s "${HOME}/.nvm/nvm.sh" ]] && source "${HOME}/.nvm/nvm.sh"
+# nvm use v12.7.0
+nvm use v8.15.0

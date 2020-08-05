@@ -18,24 +18,32 @@
 	up = pull --rebase
 	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+	stashshow = stash show -p stash@{0}
 	lsuntracked = ls-files . --ignored --exclude-standard --others
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 	lcrev = log --reverse --no-merges --stat @{1}..
-	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+	lc = log ORIG_HEAD.. --stat --no-merges
+	ll = log --graph --oneline  --decorate --date=short --all --pretty=format:'%ad %h %Cgreen%an %Cred%d %Creset%s'
+	llstat = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	changes = diff --name-status -r
 	diffstat = diff --stat -r
-	mchanges = diff @{u}.. --name-status -r
-	mdiff = diff @{u}..
-	mdiffstat = diff @{u}.. --stat -r
-	mlist = diff @{u}.. --name-status
-	mlog = log @{u}..
-	brcommits = git log ^master --no-merges
+	uchanges = diff @{u}.. --name-status -r
+	udiff = diff @{u}..
+	udiffstat = diff @{u}.. --stat -r
+	ulist = diff @{u}.. --name-status
+	ulog = log @{u}..
+	mchanges = diff master.. --name-status -r
+	mdiff = diff master..
+	mdiffstat = diff master.. --stat -r
+	mlist = diff master.. --name-status
+	mlog = log master..
+	brcommits = !git log ^master --no-merges
 	branch-name = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
-     ll = log --graph --oneline  --decorate --date=short --all --pretty=format:'%ad %h %Cgreen%an %Cred%d %Creset%s'
-
 
 [core]
 	excludesfile = /Users/ramr/.gitignore
+	editor = vi
 
 [github]
 	user = ramr
@@ -44,7 +52,7 @@
 	enabled = 1
 
 [merge]
-	keepBackup = false;
+	# keepBackup = false;
 	# tool = p4merge
 
 [mergetool "p4merge"]

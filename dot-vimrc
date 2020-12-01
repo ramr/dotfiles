@@ -62,3 +62,5 @@ set diffopt=filler,iwhite      " diff opts
 
 " -- execute pathogen#infect()
 " -- filetype plugin indent on
+
+autocmd BufNewFile,BufRead /home/ramr/work/riffyn/* set expandtab

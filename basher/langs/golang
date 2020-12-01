@@ -26,3 +26,21 @@ function vimgo() {
   vim -u "${VIMGO_RC_FILE}" "$@"
 
 }  #  End of function  vimgo.
+
+#
+#  Setup go paths.
+#
+function _setup_go_paths() {
+  export GOROOT=/usr/local/go
+  export GOPATH=/home/ramr/work/golang
+  alias cdreaper='cd $GOPATH/src/github.com/ramr/go-reaper'
+
+  export PATH=/usr/local/go/bin:${PATH}
+
+}  #  End of function  _setup_go_paths.
+
+
+#
+#  _main_:
+#
+_setup_go_paths

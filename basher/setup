@@ -59,7 +59,7 @@ function _load_sources() {
 
 function _setup_prompt() {
   #  Set prompt to also contain git info.
-  export PS1="[\\u@\\h \\W $GREEN\$(get_git_prompt_bits)$BLACK]\$ "
+  export PS1=":||\\u@\\h \\W $GREEN\$(get_git_prompt_bits)$BLACK\$; "
 
 }  #  End of function  _setup_prompt.
 

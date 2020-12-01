@@ -79,8 +79,8 @@ nothers="${nothers}"
 STATEOF
    fi
 
-   local changes="c-${nmod}:s-${nstaged}+${ncin}:o-${nothers})"
-   echo "(${cached}${branch}:${changes}" | tr -d ' '
+   local changes="c-${nmod}:s-${nstaged}+${ncin}:o-${nothers}]"
+   echo "[${cached}${branch}:${changes}" | tr -d ' '
 
 }  #  End of function  get_git_prompt_bits.
 

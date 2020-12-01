@@ -3,6 +3,10 @@
 #  VirtualBox manage.
 alias vmgr='VBoxManage'
 
+# kubectl krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+
 #  Load RVM into a shell session *as a function*
 # shellcheck disable=SC1090
 [[ -s "${HOME}/.rvm/scripts/rvm" ]] && source "${HOME}/.rvm/scripts/rvm"

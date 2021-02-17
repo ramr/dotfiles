@@ -11,10 +11,10 @@ function get_dir_info() {
   # find is 10x slower than ls on a network drive.
   if [ "${zopt}" = "-s" ]; then
     # shellcheck disable=SC2012
-    ls -Fs "${zdir}" | sed 's#\*$##g' | sort -k 2 |  grep -v "^total"
+    /bin/ls -Fs "${zdir}" | sed 's#\*$##g' | sort -k 2 |  grep -v "^total"
   else
     # shellcheck disable=SC2012
-    ls -F "${zdir}" | sed 's#\*$##g'
+    /bin/ls -F "${zdir}" | sed 's#\*$##g'
   fi
 
 }  #   End of function  get_dir_info.
@@ -54,7 +54,7 @@ function diff_directories() {
     if [ -d "$1/${fname}" ]; then
       diff_directories "$1/${fname}" "$2/${fname}" "$3"
     fi
-  done < <(ls "$1")
+  done < <(/bin/ls "$1")
 
   return ${ndiffs}
 

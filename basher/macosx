@@ -135,6 +135,13 @@ function _macosx__setup_docker() {
 }  #  End of function _macosx__setup_docker.
 
 
+function _macosx__setup_rust() {
+  local cargoenv="${HOME}/.cargo/env"
+  [ -f "${cargoenv}" ] && source "${cargoenv}"
+
+}  #  End of function _macosx__setup_docker.
+
+
 #
 #  main():
 #
@@ -146,4 +153,6 @@ _macosx__mosh_setup
 
 _macosx__setup_python_startup
 
-_macosx__setup_docker
+# _macosx__setup_docker
+
+_macosx__setup_rust

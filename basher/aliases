@@ -6,8 +6,8 @@ alias cp='cp -i'
 alias mv='mv -i'
 
 #  ls variants.
-alias ls='ls -F'
-alias lsa='ls -aF'
+alias ls='ls -NF'
+alias lsa='ls -aNF'
 
 #  git.
 alias got='git'

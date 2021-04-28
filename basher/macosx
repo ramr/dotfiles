@@ -110,7 +110,10 @@ function _macosx__setup_aliases() {
   alias togglemutevol="_toggle_volume_mute"
 
   export LSCOLORS="Exfxcxdxbxegedabagacad"
+
+  #  ls variants.
   alias ls="ls -FG"
+  alias lsa='ls -aFG'
 
 }  #  End of function  _macosx__setup_aliases.
 

@@ -10,7 +10,9 @@ function _add_ssh_keys_to_agent {
   # shellcheck disable=SC1090
   . "${SSH_ENV}" > /dev/null
 
-  /usr/bin/ssh-add "${SSH_KEY}"
+  [ -f "${SSH_KEY}" ] && /usr/bin/ssh-add "${SSH_KEY}"
+
+  return 0
 
 }  #  End of function  _add_ssh_keys_to_agent.
 

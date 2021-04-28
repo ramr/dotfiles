@@ -60,6 +60,18 @@ set incsearch                   " show matches asap
 
 set diffopt=filler,iwhite      " diff opts
 
+
+" ---------------------------------------------------------------------
+"    Highlighting
+" ---------------------------------------------------------------------
+hi SpecialKey ctermfg=81 guifg=Cyan
+hi Directory  ctermfg=159 guifg=Cyan
+hi Search     guifg=Black ctermfg=Black
+hi ModeMsg    guibg=White ctermbg=White
+hi Folded     guifg=Cyan
+hi FoldColumn guifg=Cyan
+
+
 " -- execute pathogen#infect()
 " -- filetype plugin indent on
 

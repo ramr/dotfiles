@@ -1,0 +1,52 @@
+#!/bin/bash
+
+readonly SRC="/Volumes/Media"
+readonly DEST="/Volumes/Backups"
+readonly BWLIMIT=${BANDWIDTH_LIMIT:-1000}
+
+
+function _backup_dir() {
+    local srcdir=$1
+    local destdir=$2
+
+	if [ -z "${srcdir}" ] || [ ! -d "${srcdir}" ]; then
+	   echo "ERROR: Invalid source directory ${srcdir}"
+	   exit 76
+	fi
+
+	if [ -z "${destdir}" ]; then
+	   echo "ERROR: Invalid destination directory ${destdir}"
+	   exit 76
+    fi
+
+	mkdir -p "${destdir}"
+
+    echo "  - Backing up ${srcdir} to ${destdir} ..."
+    rsync -azvhi --bwlimit="${BWLIMIT}" --progress "${srcdir}" "${destdir}"
+
+}  #  End of function  _backup_dir.
+
+
+function _backup_media() {
+    _backup_dir "${SRC}/Media" "${DEST}/"
+
+}  #  End of function _backup_media.
+
+
+function _backup_user_directories() {
+   for name in "${SRC}"/Users/*; do
+       if [ -d "${name}" ]; then
+          _backup_dir "${name}" "${DEST}/Users/"
+       fi
+   done
+
+}  #  End of function _backup_user_directories.
+
+
+#
+#  main():
+#
+_backup_media
+
+_backup_user_directories
+

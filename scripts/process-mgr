@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+function _suspend_pid() {
+  local fpid=""
+  fpid=$(pidof "$1")
+  [ -n "$fpid" ] && kill -STOP "${fpid}"
+
+}  #  End of function  _suspend_pid.
+
+
+function _activate_pid() {
+  local fpid=""
+  fpid=$(pidof "$1")
+  [ -n "$fpid" ] && kill -CONT "${fpid}"
+
+}  #  End of function  _activate_pid.
+
+
+name=${1:-"firefox"}
+action=${2:-"activate"}
+
+case "${action}" in
+  suspend)   _suspend_pid  "${name}"  ;;
+  activate)  _activate_pid "${name}"  ;;
+esac

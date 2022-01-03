@@ -1,10 +1,10 @@
 #!/bin/bash
 
-SCRIPT_NAME=$0
+readonly SCRIPT_NAME=$0
 
 
 function _shell_script_check() {
-  if (test $# -lt 1); then
+  if [ $# -lt 1 ]; then
      echo "Usage: $SCRIPT_NAME [<files>]"
      exit 0
   fi

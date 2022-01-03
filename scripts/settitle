@@ -4,9 +4,9 @@
 #
 #  main():
 #
-if (test $# -lt 1); then
+if [ $# -lt 1 ]; then
    echo "Usage: $0  <title>"
-   exit -1
+   exit 64
 fi
 
 osascript -e "tell application \"Terminal\" to set custom title of window 1 to \"$1\""

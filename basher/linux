@@ -41,8 +41,7 @@ function _setup_elementary_os() {
 
 
 function _setup_linux_aliases() {
-  # alias ntpupdate="sudo ntpdate -s time.nist.gov"
-  alias ntpupdate="sudo bash -c 'service ntp stop; ntpd -gq; service ntp start'"
+  alias ntpupdate="sync-ntp-time"
   alias pkgcleanup="sudo apt-get autoremove"
 
   local distid

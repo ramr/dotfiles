@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#  Update time on a VM - thanks to time drifts!
+#  But also why do we insist on breaking stuff every *nix release?
+
+#  Oldest ubuntu vm.
+ntpdate=$(command -v ntpdate)
+if [ -n "${ntpdate}" ]; then
+    sudo ntpdate -s time.nist.gov
+    return
+fi
+
+#  The newer upstart!
+if sudo service ntp status > /dev/null 2>&1; then
+    sudo bash -c 'service ntp stop; ntpd -gq; service ntp start'
+    return
+fi
+
+
+# Jeez, the new omicron variant - systemd schtuff!
+sudo timedatectl set-ntp true
+sudo systemctl restart systemd-timesyncd.service
+timedatectl

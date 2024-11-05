@@ -7,80 +7,132 @@ export CACHE_TIME=36000
 #  git util functions
 #
 function get_git_branch() {
-   git rev-parse --abbrev-ref HEAD 2> /dev/null
+    git rev-parse --abbrev-ref HEAD 2> /dev/null
 
 }  #  End of function  get_git_branch.
 
 
 function get_git_repo() {
-   basename "$(git rev-parse --show-toplevel)"
+    basename "$(git rev-parse --show-toplevel)"
 
 }  #  End of function  get_git_repo.
 
 
 function get_cached_git_status_file() {
-  local repo
-  local branch
+    local repo
+    local branch
 
-  repo=$(get_git_repo)
-  branch=$(get_git_branch)
-  branch=${branch//\//-}
-  echo "/tmp/git_status.cached.${repo// /}.${branch// /}" 
-}
+    repo=$(get_git_repo)
+    branch=$(get_git_branch)
+    branch=${branch//\//-}
+    echo "/tmp/git_status.cached.${repo// /}.${branch// /}"
+
+}  #  End of function  get_cached_git_status_file.
+
+
+function get_git_main_branch_name() {
+    local branch="main"
+
+    if ! git branch --list main | grep main > /dev/null 2>&1; then
+        # 404 ... the older git repos use master.
+        branch="master"
+    fi
+
+    echo "${branch}"
+
+}  #  End of function  get_git_main_branch_name.
+
+
+function update_git_sources() {
+    local upstream="upstream"
+    local current=""
+    local main_branch=""
+
+    if ! git remote 2>&1 | grep "${upstream}" > /dev/null; then
+         upstream="origin"
+    fi
+
+    current=$(git rev-parse --abbrev-ref HEAD)
+    main_branch=$(get_git_main_branch_name)
+
+    git fetch "${upstream}"
+    git checkout "${main_branch}"
+    if ! git rebase "${upstream}/${main_branch}"; then
+         echo ""
+         echo "ERROR: git rebase failed. Likely there are checked-out files."
+         echo ""
+         echo "Note: current branch is set to ${main_branch}"
+         return 1
+    fi
+
+    echo ""
+    echo "  - Rebased ${main_branch} from ${upstream}/${main_branch}."
+
+    if [ "x${current}" != "x${main_branch}" ]; then
+        echo "    To apply to local branch, use:"
+        echo "        git rebase ${upstream}/${main_branch}"
+        echo "    OR"
+        echo "        git rebase ${main_branch}"
+    fi
+
+    git checkout "${current}"
+
+}  #  End of function  update_git_sources.
 
 
 function get_git_prompt_bits() {
-   local branch
-   branch=$(get_git_branch)
-   [ -z "$branch" ]   &&  return 0
+    local branch
+    branch=$(get_git_branch)
+    [ -z "$branch" ]   &&  return 0
 
-   local statusfile
-   statusfile=$(get_cached_git_status_file)
+    local statusfile
+    statusfile=$(get_cached_git_status_file)
 
-   if [ -f "$statusfile" ]; then
-     local ctime="0"
+    if [ -f "$statusfile" ]; then
+        local ctime="0"
 
-     if [ "$(uname -s)" = "Darwin" ]; then
-       ctime=$(stat -f %B "$statusfile")
-     else
-       ctime=$(stat -c %Y "$statusfile")
-     fi
+        if [ "$(uname -s)" = "Darwin" ]; then
+            ctime=$(stat -f %B "$statusfile")
+        else
+            ctime=$(stat -c %Y "$statusfile")
+        fi
 
-     local expiry=$((ctime + CACHE_TIME))
-     [ "$(date +%s)" -gt "$expiry" ] && rm -f "$statusfile"
-   fi
+        local expiry=$((ctime + CACHE_TIME))
+        [ "$(date +%s)" -gt "$expiry" ] && rm -f "$statusfile"
+    fi
 
-   local cached=""
-   local nmod="0"
-   local nstaged="0"
-   local ncin="0"
-   local nothers="0"
+    local cached=""
+    local nmod="0"
+    local nstaged="0"
+    local ncin="0"
+    local nothers="0"
 
-   if [ -f "$statusfile" ]; then
-     cached="cached:"
-     # shellcheck disable=SC1090
-     source "$statusfile"
-   else
-     nmod="$(git diff --name-status | wc -l)"
-     nstaged="$(git diff --staged --name-status | wc -l)"
+    if [ -f "$statusfile" ]; then
+        cached="cached:"
+        # shellcheck disable=SC1090
+        source "$statusfile"
+    else
+        nmod="$(git diff --name-status | wc -l)"
+        nstaged="$(git diff --staged --name-status | wc -l)"
 
-     ncin=0
-     if git remote -v | grep origin > /dev/null 2>&1; then
-       ncin="$(git mdiff --name-status | wc -l)"
-     fi
+        main_branch=$(get_git_main_branch_name)
+        ncin=0
+        if git remote -v | grep origin > /dev/null 2>&1; then
+            ncin=$(git diff --name-status ..."${main_branch}" | wc -l)
+        fi
 
-     nothers="$(git ls-files --others --exclude-standard | wc -l)"
+        nothers="$(git ls-files --others --exclude-standard | wc -l)"
 
-     cat > "$statusfile" <<STATEOF
+        cat > "$statusfile" <<STATEOF
 nmod="${nmod}"
 nstaged="${nstaged}"
 ncin="${ncin}"
 nothers="${nothers}"
 STATEOF
-   fi
+    fi
 
-   local changes="c-${nmod}:s-${nstaged}+${ncin}:o-${nothers}]"
-   echo "[${cached}${branch}:${changes}" | tr -d ' '
+    local changes="c-${nmod}:s-${nstaged}+${ncin}:o-${nothers}]"
+    echo "[${cached}${branch}:${changes}" | tr -d ' '
 
 }  #  End of function  get_git_prompt_bits.
 
@@ -89,19 +141,19 @@ STATEOF
 #  subversion util functions
 #
 function get_svn_branch() {
-   get_svn_url  | sed -e 's#^'"$(get_svn_repository_root)"'##g'  |  \
-      awk '{print " (svn::"$1")" }'
+    get_svn_url  | sed -e 's#^'"$(get_svn_repository_root)"'##g'  |  \
+        awk '{print " (svn::"$1")" }'
 
 }  #  End of function  get_svn_branch.
 
 
 function get_svn_url() {
-   svn info 2>/dev/null  |  sed -ne 's#^URL: ##p'
+    svn info 2>/dev/null  |  sed -ne 's#^URL: ##p'
 
 }  #  End of function  get_svn_url.
 
 
 function get_svn_repository_root() {
-   svn info 2>/dev/null  |  sed -ne 's#^Repository Root: ##p'
+    svn info 2>/dev/null  |  sed -ne 's#^Repository Root: ##p'
 
 }  #  End of function  get_svn_repository_root.

@@ -4,72 +4,72 @@ BASHER_SRC_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 DOTFILES_DIR=$(cd "$(dirname "$BASHER_SRC_DIR")" && pwd)
 
 BASHER_SOURCES="aliases utils completions scrapper colors sccmutils vms ide"
-BASHER_CUSTOM_SOURCES="docker riffyn"  #  rhwork crwork rhlibra
+BASHER_CUSTOM_SOURCES="docker pdx"  # flowc riffyn rhwork crwork rhlibra
 BASHER_LINUX_SOURCES="linux ssh-agent-setup"
 BASHER_MACOSX_SOURCES="macosx"
 
 
 # User specific aliases and functions
 function get_basher_dir() {
-  echo "${BASHER_SRC_DIR}"
+    echo "${BASHER_SRC_DIR}"
 
 }  #  End of function  get_basher_dir.
 
 
 function _setup_env() {
-  #  History setup.
-  export HISTSIZE=1000
-  export HISTFILESIZE=2000
+    #  History setup.
+    export HISTSIZE=1000
+    export HISTFILESIZE=2000
 
-  shopt -s histappend
+    shopt -s histappend
 
-  #  language and workarea.
-  export LANG=C
-  export WORKAREA=~/work
-  export ANDROID_SDK_HOME=~/android/sdk/platform-tools
+    #  language and workarea.
+    export LANG=C
+    export WORKAREA=~/work
+    export ANDROID_SDK_HOME=~/android/sdk/platform-tools
 
-  #  path.
-  export PATH=~/bin:$DOTFILES_DIR/scripts:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:~/android/sdk/platform-tools:${PATH}
+    #  path.
+    export PATH=~/bin:$DOTFILES_DIR/scripts:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:~/android/sdk/platform-tools:${PATH}
 
-  alias cdbasher="cd \${BASHER_SRC_DIR}"
+    alias cdbasher="cd \${BASHER_SRC_DIR}"
 
 }  #  End of function  _setup_env.
 
 
 function _load_sources() {
-  local custom="${BASHER_CUSTOM_SOURCES}"
+    local custom="${BASHER_CUSTOM_SOURCES}"
 
-  case "$(uname -s)" in
-    Linux)  custom="${custom} ${BASHER_LINUX_SOURCES}" ;;
-    Darwin) custom="${custom} ${BASHER_MACOSX_SOURCES}" ;;
-    *)  ;;
-  esac
+    case "$(uname -s)" in
+        Linux)  custom="${custom} ${BASHER_LINUX_SOURCES}" ;;
+        Darwin) custom="${custom} ${BASHER_MACOSX_SOURCES}" ;;
+        *)  ;;
+    esac
 
-  for f in ${BASHER_SOURCES} ${custom}; do
-    local fname
-    fname="$(get_basher_dir)/$f"
+    for f in ${BASHER_SOURCES} ${custom}; do
+        local fname
+        fname="$(get_basher_dir)/$f"
 
-    #  Source file if it exists.
-    # shellcheck disable=SC1090
-    [ -f "$fname" ]  &&  source "$fname"
-  done
+        #  Source file if it exists.
+        # shellcheck disable=SC1090
+        [ -f "$fname" ]  &&  source "$fname"
+    done
 
 }  #  End of function  _load_sources.
 
 
 function _setup_prompt() {
-  #  Set prompt to also contain git info.
-  export PS1=":||\\u@\\h \\W $GREEN\$(get_git_prompt_bits)$BLACK\$; "
+    #  Set prompt to also contain git info.
+    export PS1=":||\\u@\\h \\W $GREEN\$(get_git_prompt_bits)$BLACK\$; "
 
 }  #  End of function  _setup_prompt.
 
 
 function _basher_setup() {
-  _setup_env
+    _setup_env
 
-  _load_sources
+    _load_sources
 
-  _setup_prompt
+    _setup_prompt
 
 }  #  End of function  _basher_setup.
 

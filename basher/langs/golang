@@ -33,9 +33,14 @@ function vimgo() {
 function _setup_go_paths() {
   export GOROOT=/usr/local/go
   export GOPATH=/home/ramr/work/golang
-  alias cdreaper='cd $GOPATH/src/github.com/ramr/go-reaper'
+  alias cdreaper='cd ${GOPATH}/src/github.com/ramr/go-reaper'
+  alias cdrp='cdreaper'
+  alias cdtelegraph='cd ${GOPATH}/src/github.com/ramr/go-grpc-telegraph'
+  alias cdt='cdtelegraph'
+  alias cdtele='cdtelegraph'
+  alias cdg='cdtelegraph'
 
-  export PATH=/usr/local/go/bin:${PATH}
+  export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin
 
 }  #  End of function  _setup_go_paths.
 

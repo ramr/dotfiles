@@ -2,7 +2,7 @@
 
 
 function sshjump {
-  expect -c "
+    expect -c "
 spawn -noecho ssh -X -A $1;
 send \"ssh -X $2\\r\";
 send \"cdos\\r\";
@@ -13,17 +13,24 @@ interact -o eof return
 
 
 function rrhc() { 
-   "$(which rhc)" "$@" -p "$(cat ~/.openshift/.pc)";
+    "$(which rhc)" "$@" -p "$(cat ~/.openshift/.pc)";
 
 }  #  End of function  rhc.
 
 
+function tldr() {
+    curl "https://cht.sh/$1"
+
+}  #  End of function  tldr.
+
+
 function _setup_bash_completion() {
     if [ -f /etc/bash_completion ]; then
-          . /etc/bash_completion
-            fi
+	    # shellcheck source=/dev/null
+	    source /etc/bash_completion
+    fi
 
-}
+}  #  End of function  _setup_bash_completion.
 
 
 #

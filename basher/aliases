@@ -14,7 +14,8 @@ alias got='git'
 alias authors="git log --format='%aN' | sort -u"
 alias reset2master="echo 'Run command: git reset --hard remotes/origin/HEAD'";
 alias undolast="echo 'Run command: git reset --soft HEAD^'"
-alias updsrc="git fetch upstream; git co master; git rebase upstream/master"
+alias git_co_main="get_git_main_branch_name | xargs -I %b git checkout %b"
+alias updsrc="update_git_sources"
 
 #  misc.
 alias mkvmerge='/Applications/Mkvtoolnix-7.0.0.app/Contents/MacOS/mkvmerge'
@@ -24,6 +25,7 @@ alias fck='eval $(thefuck $(fc -ln -1))'
 alias extip='echo "$(curl http://ipecho.net/plain)"'
 alias getdl='go get -u github.com/derekparker/delve/cmd/dlv'
 alias todo='todo.sh'
+alias dug='dig +noall +answer'
 
 #  alias dl='docker ps -l -q'
 

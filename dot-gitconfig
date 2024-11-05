@@ -10,6 +10,11 @@
 [branch]
     # autosetuprebase = always
 
+#
+#main = !git symbolic-ref refs/remotes/origin/HEAD | cut -d'/' -f4
+#remotesh = remote set-head origin --auto
+#com = "!f(){ git checkout $(git main) $@;}; f"
+
 [alias]
 	st = status
 	cp = cherry-pick
@@ -27,18 +32,24 @@
 	llstat = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
 	changes = diff --name-status -r
 	diffstat = diff --stat -r
+        stats = shortlog --summary --numbered --all --no-merges
+        mstats = shortlog --summary --numbered --all
 	uchanges = diff @{u}.. --name-status -r
 	udiff = diff @{u}..
 	udiffstat = diff @{u}.. --stat -r
 	ulist = diff @{u}.. --name-status
 	ulog = log @{u}..
-	mchanges = diff master.. --name-status -r
-	mdiff = diff master..
-	mdiffstat = diff master.. --stat -r
-	mlist = diff master.. --name-status
-	mlog = log master..
-	brcommits = !git log ^master --no-merges
+	mchanges = diff main.. --name-status -r
+	mdiff = diff main..
+	mdiffstat = diff main.. --stat -r
+	mlist = diff main.. --name-status
+	mlog = log main..
+	sdiff = diff --staged
+	wdiff = diff --word-diff --word-diff-regex=.
+	brcommits = !git log ^main --no-merges
 	branch-name = !git for-each-ref --format='%(refname:short)' `git symbolic-ref HEAD`
+	mainbranch = "!git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
+	contrib = shortlog --summary --numbered
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
 
 [core]
@@ -52,6 +63,8 @@
 	enabled = 1
 
 [merge]
+	conflictstyle = diff3
+        #log = true
 	# keepBackup = false;
 	# tool = p4merge
 
@@ -60,6 +73,9 @@
 	keepTemporaries = false
 	trustExitCode = false
 	keepBackup = false
+
+[apply]
+       whitespace = fix   # fix whitespaces when applying a patch
 
 [diff]
 	# external = p4diff
@@ -72,9 +88,14 @@
 	diff = diff-highlight | less
 	log = diff-highlight | less
 	show = diff-highlight | less
+
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+
 [color "diff"]
 	meta = yellow
+
+[init]
+	defaultBranch = main

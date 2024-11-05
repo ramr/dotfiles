@@ -1,0 +1,18 @@
+#!/bin/bash
+
+alias pizero='ssh pizero'
+alias pdx-instrument='ssh pizero'
+alias python='python3'
+alias cdpdx='cd ${WORKAREA}/pdx'
+alias cdh='cd ${WORKAREA}/pdx/src/instrument-handler'
+alias cdm='cd ${WORKAREA}/pdx/src/instrument-management'
+alias cdmc='cd ${WORKAREA}/pdx/src/instrument-management/component'
+alias cdr='cd ${WORKAREA}/pdx/src/reader-hardware'
+alias cdui='cd ${WORKAREA}/pdx/src/reader-local-ui'
+alias cdsrc='cd ${WORKAREA}/pdx/src/instrument-handler/src/probiusdx'
+
+export PYTHONPYCACHEPREFIX="${HOME}/.pycache/"
+export PYTHONPATH="${WORKAREA}/pdx/src/instrument-handler/src:${PYTHONPATH}"
+
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH="${PYENV_ROOT}/bin:${PATH}"

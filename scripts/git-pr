@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#
+#  Checkout a git pull request in the scope of the current git repository.
+#
+#  Usage:  _checkout_pr  <pr-id>
+#
+#  Examples:
+#      _checkout_pr  123
+#
+#      _checkout_pr  42
+#
+function _checkout_pr() {
+    local pr=${1:-""}
+
+    if [ -z "${pr}" ]; then
+        echo "Usage: $0  <pr-id>"
+        exit 64
+    fi
+
+    git fetch origin "pull/${pr}/head:pr-${pr}"
+    git co "pr-${pr}"
+
+}  #  End of function  _checkout_pr.
+
+
+#
+# main():
+#
+_checkout_pr "$@"

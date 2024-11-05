@@ -32,7 +32,8 @@ function _setup_env() {
 
     shopt -s histappend
 
-    # export PROMPT_COMMAND="flush_history; ${PROMPT_COMMAND}"
+    export PROMPT_COMMAND="flush_history; ${PROMPT_COMMAND}"
+
     #  language and workarea.
     export LANG=C
     export WORKAREA=~/work

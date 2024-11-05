@@ -1,0 +1,56 @@
+#!/bin/bash
+
+
+readonly LIGHT_GREEN='\033[1;32m'
+readonly COLOR_OFF='\033[0m'
+
+
+
+#
+#  Handler called on script exit.
+#
+function _atexit() {
+    local code=${1:-"130"}
+    echo
+    exit ${code}
+
+}  #  End of function  _atexit.
+
+
+#
+#  Show progress bar ...
+#
+#  Usage:  _progress_bar  <message>  <barry>
+#              where:  <message> = text message to display.
+#                        <barry> = continuation character. Default: |
+#
+#  Examples:
+#     _progress_bar  "Working"  "."
+#
+#     _progress_bar  "Downloading"
+#
+#     _progress_bar  ""  "#"
+#
+function _progress_bar() {
+    local msg=${1:-" "}
+    local barry=${2:-"|"}
+
+    local progress=""
+    progress=${barry}
+
+    trap '_atexit $?' EXIT INT QUIT TRAP ABRT
+
+    while echo -ne "  - ${msg} ${LIGHT_GREEN}${progress}${COLOR_OFF}\\r"; do
+        progress="${progress}${barry}"
+        sleep 1
+    done
+
+    exit 0
+
+}  #  End of function  _progress_bar.
+
+
+#
+#  main():
+#
+_progress_bar  "$@"

@@ -5,3 +5,4 @@ export RED="\\[\\033[0;31m\\]"
 export RED_BOLD="\\[\\033[01;31m\\]"
 export BLUE="\\[\\033[01;34m\\]"
 export GREEN="\\[\\033[0;32m\\]"
+export LESS_TERMCAP_md=$'\e[1;34m'

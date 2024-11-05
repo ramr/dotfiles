@@ -157,3 +157,15 @@ function get_svn_repository_root() {
     svn info 2>/dev/null  |  sed -ne 's#^Repository Root: ##p'
 
 }  #  End of function  get_svn_repository_root.
+
+
+function _git_env_setup() {
+    mkdir -p /tmp/gitcache
+
+}  #  End of function  _git_env_setup.
+
+
+#
+#  main():
+#
+_git_env_setup

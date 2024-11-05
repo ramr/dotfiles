@@ -72,6 +72,21 @@ function clipboard() {
 }  #  End of function  clipboard.
 
 
+#  From:
+function find_downloaded_apps() {
+  find /Applications -path '*Contents/_MASReceipt/receipt'  \
+                     -maxdepth 4  -print |   \
+    sed 's#.app/Contents/_MASReceipt/receipt#.app#g; s#/Applications/##'
+
+}  #  End of function  find_downloaded_apps.
+
+
+function get_safari_uri() {
+  osascript -e 'tell application "Safari" to get URL of current tab of front window'
+
+}  #  End fo function  get_safari_uri.
+
+
 function _macosx__mosh_setup() {
   export LANG="en_US.UTF-8"
   locale &> /dev/null || echo "Error: Setting locale to ${LANG} for mosh."
@@ -81,7 +96,7 @@ function _macosx__mosh_setup() {
 
 function _macosx__setup_python_startup() {
   export PYTHONSTARTUP=~/.pythonrc
-  export PATH="/usr/local/opt/python@3.8/bin/:${PATH}"
+  export PATH="/usr/local/opt/python@3.8/bin/:/usr/local/anaconda3/bin:${PATH}"
 
 }  #  End of function  _macosx__setup_python_startup.
 
@@ -97,7 +112,9 @@ function _macosx__setup_aliases() {
   alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
   alias wifi-info="airport -I"
   alias wifi-disconnect="airport -z"
+  alias utmctl="/Applications/UTM.app/Contents/MacOS/utmctl"
 
+  alias ldd="otool -L"
   alias trun="termrun"
   alias spindump-off="spindumpctl off > /dev/null 2>&1"
   alias cupswebon="cupsctl WebInterface=yes"
@@ -159,3 +176,6 @@ _macosx__setup_python_startup
 # _macosx__setup_docker
 
 _macosx__setup_rust
+
+# Activate python3 venv
+source "${HOME}/.venv/bin/activate"

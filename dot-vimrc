@@ -14,13 +14,13 @@ filetype on                     " detect file type automatically
 set textwidth=80                " tw/text width
 set autoindent smartindent      " smart ident
 set tabstop=4                   " ts/tab stop
-set shiftwidth=2                " sw/shiftwidth idents 2
-set softtabstop=2               " tab as indent
+set shiftwidth=4                " sw/shiftwidth idents 2
+set softtabstop=4               " tab as indent
 " set tabstop=8                   " ts/tab stop
 " set shiftwidth=8                " sw/shiftwidth idents 2
 " set softtabstop=8               " tab as indent
-" set expandtab                   " don't save 'em tabs -- Makefiles caution!!
-set noexpandtab                 " don't save 'em tabs -- Makefiles caution!!
+set expandtab                   " expand tabs -- Makefiles caution!!
+" set noexpandtab                 " don't save 'em tabs -- Makefiles caution!!
 set ic                          " ignore case
 set backspace=eol,start,indent  " allow backspacing on ...
 set ruler                       " show ruler on status bar
@@ -75,4 +75,5 @@ hi FoldColumn guifg=Cyan
 " -- execute pathogen#infect()
 " -- filetype plugin indent on
 
-autocmd BufNewFile,BufRead /home/ramr/work/riffyn/* set expandtab
+autocmd BufNewFile,BufRead /home/ramr/work/* set expandtab
+autocmd BufNewFile,BufRead /Users/ramr/work/* set expandtab

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+alias cdlab='cd "${WORKAREA}/labdr"'
+alias cdah='cd "${WORKAREA}/labdr/ankhex"'
+alias cds='cd "${WORKAREA}/labdr/songsmith"'
+alias cdm='cd "${WORKAREA}/labdr/ankhex/src/labdr/ankhex/metrics"'
+alias cdlabah='cdah'
+alias cdlabkh='cdah'
+alias cdlabkw='cdah'
+alias cdlabpr='cdah'
+alias cdsongsmith='cds'
+alias pydev='python -m pdb -c c'
+
+export PYTHONPATH=${PYTHONPATH}:"${WORKAREA}/labdr/ankhex/src"
+export PYTHONPYCACHEPREFIX="${HOME}/.pycache"

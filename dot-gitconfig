@@ -51,6 +51,7 @@
 	mainbranch = "!git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
 	contrib = shortlog --summary --numbered
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+	chgstats = !git log --name-only --format='' | sort | uniq -c | sort -n -k 1
 
 [core]
 	excludesfile = /Users/ramr/.gitignore
@@ -64,7 +65,7 @@
 
 [merge]
 	conflictstyle = diff3
-        #log = true
+	#log = true
 	# keepBackup = false;
 	# tool = p4merge
 
@@ -99,3 +100,9 @@
 
 [init]
 	defaultBranch = main
+
+[safe]
+	directory = /home/ramr/work/ebpf/bcc
+	directory = /home/ramr/work/ebpf/bcc/libbpf-tools/blazesym
+	directory = /home/ramr/work/ebpf/bcc/src/cc/libbpf
+	directory = /home/ramr/work/ebpf/bcc/libbpf-tools/bpftool
